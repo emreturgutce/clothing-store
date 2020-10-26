@@ -1,5 +1,6 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
+import { createConnection } from 'typeorm';
 
 const typeDefs = gql`
   type Query {
@@ -12,6 +13,15 @@ const resolvers = {
     hello: () => 'Hello world!',
   },
 };
+
+createConnection()
+  .then(() => {
+    console.log(`🐘 Connected to Postgres DB`);
+  })
+  .catch((err) => {
+    console.error(`❌ Error occurred connecting Postgres DB:\n${err}`);
+    process.exit(1);
+  });
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
