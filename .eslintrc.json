@@ -14,6 +14,10 @@
     "linebreak-style": "off",
     "no-console": "off",
     "quotes": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "object-curly-newline": "off"
   }
 }
