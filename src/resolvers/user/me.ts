@@ -5,7 +5,7 @@ import { Context } from '../../types/context';
 import { JWT_SECRET } from '../../config';
 
 @Resolver()
-export class LoginUserResolver {
+export class MeResolver {
   @Authorized()
   @Mutation(() => User, { nullable: true })
   async me(@Ctx() { req }: Context): Promise<User | null> {
