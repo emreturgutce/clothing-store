@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
 import { Context } from '../../types/context';
+import { JWT_SECRET } from '../../config';
 
 @Resolver()
 export class RegisterUserResolver {
@@ -24,7 +25,7 @@ export class RegisterUserResolver {
       password: hashedPassword,
     }).save();
 
-    ctx.req.session!.userId = jwt.sign(user.id, 'shhhhhh');
+    ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
 
     return user;
   }

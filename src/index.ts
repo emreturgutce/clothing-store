@@ -6,7 +6,7 @@ import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
 import path from 'path';
-import './config';
+import { SESSION_SECRET } from './config';
 import { redis } from './config/redis';
 
 async function main() {
@@ -35,7 +35,7 @@ async function main() {
         client: redis,
       }),
       name: 'auth_token',
-      secret: 'thisisabigsecret',
+      secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
