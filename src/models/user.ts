@@ -24,6 +24,7 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
+  @Field()
   @OneToOne(() => UserDetail)
   @JoinColumn()
   detail!: UserDetail;
