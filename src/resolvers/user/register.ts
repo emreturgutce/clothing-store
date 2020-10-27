@@ -1,7 +1,9 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
+import { Context } from '../../types/context';
 
 @Resolver()
 export class RegisterUserResolver {
@@ -13,6 +15,7 @@ export class RegisterUserResolver {
   @Mutation(() => User)
   async register(
     @Arg('data') { email, password }: RegisterInput,
+    @Ctx() ctx: Context,
   ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -20,6 +23,8 @@ export class RegisterUserResolver {
       email,
       password: hashedPassword,
     }).save();
+
+    ctx.req.session!.userId = jwt.sign(user.id, 'shhhhhh');
 
     return user;
   }
