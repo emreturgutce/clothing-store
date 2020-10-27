@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
 
 @Resolver()
@@ -10,8 +11,7 @@ export class RegisterUserResolver {
 
   @Mutation(() => User)
   async register(
-    @Arg('email') email: string,
-    @Arg('password') password: string,
+    @Arg('data') { email, password }: RegisterInput,
   ): Promise<User> {
     const user = await User.create({
       email,
