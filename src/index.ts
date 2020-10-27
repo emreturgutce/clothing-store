@@ -8,6 +8,7 @@ import { buildSchema } from 'type-graphql';
 import path from 'path';
 import { SESSION_SECRET } from './config';
 import { redis } from './config/redis';
+import { authChecker } from './utils/auth-checker';
 
 async function main() {
   createConnection()
@@ -23,6 +24,7 @@ async function main() {
 
   const schema = await buildSchema({
     resolvers: [path.join(__dirname, '/resolvers/**/*.ts')],
+    authChecker,
   });
 
   const server = new ApolloServer({ schema, context: ({ req }) => ({ req }) });
