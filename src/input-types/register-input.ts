@@ -1,13 +1,14 @@
-import { IsEmail, Length } from 'class-validator';
+import { IsPhoneNumber, Length } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
+import { LoginInput } from './login-input';
 
 @InputType()
-export class RegisterInput {
-  @Field()
-  @IsEmail()
-  email!: string;
+export class RegisterInput extends LoginInput {
+  @Field({ nullable: true })
+  @Length(2, 255)
+  name?: string;
 
-  @Field()
-  @Length(6, 255)
-  password!: string;
+  @Field({ nullable: true })
+  @IsPhoneNumber('TR')
+  phone?: string;
 }
