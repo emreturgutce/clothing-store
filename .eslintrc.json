@@ -18,6 +18,7 @@
     "class-methods-use-this": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "consistent-return": "off"
   }
 }
