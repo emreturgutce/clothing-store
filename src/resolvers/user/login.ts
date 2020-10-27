@@ -1,13 +1,17 @@
-import { Arg, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
+import { Context } from '../../types/context';
+import { JWT_SECRET } from '../../config';
 
 @Resolver()
 export class LoginUserResolver {
   @Mutation(() => User, { nullable: true })
   async login(
     @Arg('data') { email, password }: RegisterInput,
+    @Ctx() ctx: Context,
   ): Promise<User | null> {
     const user = await User.findOne({ where: { email } });
 
@@ -20,6 +24,8 @@ export class LoginUserResolver {
     if (!isValid) {
       return null;
     }
+
+    ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
 
     return user;
   }
