@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { UserDetail } from './user-detail';
 
 @ObjectType()
 @Entity()
@@ -21,13 +24,17 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Field()
+  @OneToOne(() => UserDetail)
+  @JoinColumn()
+  detail!: UserDetail;
+
+  @Field({ nullable: true })
   @CreateDateColumn({
     type: 'timestamp',
   })
   createdAt!: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @CreateDateColumn({
     type: 'timestamp',
   })
