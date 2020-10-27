@@ -9,6 +9,7 @@ import path from 'path';
 import { SESSION_SECRET } from './config';
 import { redis } from './config/redis';
 import { authChecker } from './utils/auth-checker';
+import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
 
 async function main() {
   createConnection()
@@ -36,14 +37,14 @@ async function main() {
       store: new RedisStore({
         client: redis,
       }),
-      name: 'auth_token',
+      name: COOKIE_NAME,
       secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
         secure: false,
-        maxAge: 1000 * 60 * 60 * 24 * 7 * 365,
+        maxAge: COOKIE_EXPIRATION,
       },
     }),
   );
