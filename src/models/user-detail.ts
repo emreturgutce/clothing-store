@@ -14,10 +14,11 @@ export class UserDetail extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   name?: string;
 
+  @Field({ nullable: true })
   @Column({ nullable: true, unique: true })
   phone?: string;
 
