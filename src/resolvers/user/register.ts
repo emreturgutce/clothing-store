@@ -16,7 +16,7 @@ export class RegisterUserResolver {
 
   @Mutation(() => User)
   async register(
-    @Arg('data') { email, password }: RegisterInput,
+    @Arg('data') { email, password, name, phone }: RegisterInput,
     @Ctx() ctx: Context,
   ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -24,7 +24,10 @@ export class RegisterUserResolver {
     const user = await User.create({
       email,
       password: hashedPassword,
-      detail: await UserDetail.create().save(),
+      detail: await UserDetail.create({
+        name,
+        phone,
+      }).save(),
     }).save();
 
     ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
