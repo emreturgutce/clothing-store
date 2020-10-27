@@ -5,6 +5,7 @@ import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
 import { Context } from '../../types/context';
 import { JWT_SECRET } from '../../config';
+import { UserDetail } from '../../models/user-detail';
 
 @Resolver()
 export class RegisterUserResolver {
@@ -23,6 +24,7 @@ export class RegisterUserResolver {
     const user = await User.create({
       email,
       password: hashedPassword,
+      detail: await UserDetail.create().save(),
     }).save();
 
     ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
