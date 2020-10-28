@@ -6,6 +6,8 @@ import { User } from '../../models/user';
 import { Context } from '../../types/context';
 import { JWT_SECRET } from '../../config';
 import { UserDetail } from '../../models/user-detail';
+import { sendEmail } from '../../utils/send-email';
+import { createConfirmationUrl } from '../../utils/create-confirmation-url';
 
 @Resolver()
 export class RegisterUserResolver {
@@ -31,6 +33,8 @@ export class RegisterUserResolver {
     }).save();
 
     ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
+
+    await sendEmail(email, await createConfirmationUrl(user.id));
 
     return user;
   }
