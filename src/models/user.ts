@@ -24,6 +24,10 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
+  @Field({ defaultValue: false })
+  @Column({ default: false })
+  confirmed!: boolean;
+
   @Field()
   @OneToOne(() => UserDetail)
   @JoinColumn()
