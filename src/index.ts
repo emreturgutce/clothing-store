@@ -28,7 +28,10 @@ async function main() {
     authChecker,
   });
 
-  const server = new ApolloServer({ schema, context: ({ req }) => ({ req }) });
+  const server = new ApolloServer({
+    schema,
+    context: ({ req, res }) => ({ req, res }),
+  });
 
   const app = express();
 
