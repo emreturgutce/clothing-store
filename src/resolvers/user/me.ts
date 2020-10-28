@@ -17,7 +17,7 @@ export class MeResolver {
 
     const user = await User.findOne({
       where: { id },
-      select: ['id', 'email', 'detail', 'createdAt', 'updatedAt'],
+      select: ['id', 'email', 'detail', 'confirmed', 'createdAt', 'updatedAt'],
       relations: ['detail'],
     });
 
