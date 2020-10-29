@@ -19,6 +19,7 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "object-curly-newline": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "indent": "off"
   }
 }
