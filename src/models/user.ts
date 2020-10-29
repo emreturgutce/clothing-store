@@ -30,6 +30,10 @@ export class User extends BaseEntity {
   @Column({ default: false })
   confirmed!: boolean;
 
+  @Field({ nullable: true })
+  @Column('bytea', { nullable: true })
+  avatar?: string;
+
   @Field()
   @OneToOne(() => UserDetail)
   @JoinColumn()
