@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { FORGOT_PASSWORD_PREFIX } from '../../constants';
 import { User } from '../../models/user';
@@ -8,6 +8,7 @@ import { Context } from '../../types/context';
 
 @Resolver()
 export class ChangePasswordResolver {
+  @Authorized()
   @Mutation(() => User, { nullable: true })
   async changePassword(
     @Arg('data') { token, password }: ChangePasswordInput,
