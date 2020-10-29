@@ -36,7 +36,7 @@ export class Order extends BaseEntity {
   })
   status!: Status;
 
-  @Field()
+  @Field(() => [OrderProduct])
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
   orderProducts!: OrderProduct[];
 
