@@ -20,6 +20,8 @@
     "import/extensions": "off",
     "object-curly-newline": "off",
     "consistent-return": "off",
-    "indent": "off"
+    "indent": "off",
+    "no-unused-vars": "warn",
+    "no-shadow": "off"
   }
 }
