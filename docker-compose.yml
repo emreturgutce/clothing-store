@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+  app:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - SESSION_SECRET=68809ce5c3b074a9768c9db223a6b180927d9ff006ff3cf398b7994911ab72a368b4b48a985bef80a2948606582136eef7237dcc1609fde92e5a273d1cccefce
+      - JWT_SECRET=a5fb62f45ef9247d41992e5358bbd8825fc0515b9a8276ccacba0f6e449d2992db273872ee069d896985c8cc8c812814dc2e2ea2c54b7eacac628b90dc4f474c
+      - DB_TYPE=postgres
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+      - PG_DATABASE=clothing_store
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      #- /app/node_modules
+      - .:/app
+  postgres:
+    image: postgres
+    restart: on-failure
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=clothing_store
+    expose:
+      - 5432
+  redis:
+    image: redis
+    restart: on-failure
+    expose:
+      - 6379
