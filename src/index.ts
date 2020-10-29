@@ -6,7 +6,7 @@ import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
 import path from 'path';
-import { SESSION_SECRET } from './config';
+import { SESSION_SECRET, PORT, NODE_ENV } from './config';
 import { redis } from './config/redis';
 import { authChecker } from './utils/auth-checker';
 import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
@@ -24,7 +24,7 @@ async function main() {
   const RedisStore = connectRedis(session);
 
   const schema = await buildSchema({
-    resolvers: [path.join(__dirname, '/resolvers/**/*.ts')],
+    resolvers: [path.join(__dirname, '/resolvers/**/*.*')],
     authChecker,
   });
 
@@ -46,7 +46,7 @@ async function main() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: false,
+        secure: NODE_ENV !== 'development',
         maxAge: COOKIE_EXPIRATION,
       },
     }),
@@ -54,7 +54,7 @@ async function main() {
 
   server.applyMiddleware({ app });
 
-  app.listen({ port: 4000 }, () => {
+  app.listen(PORT, () => {
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`,
     );

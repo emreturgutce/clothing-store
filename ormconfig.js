@@ -1,15 +1,31 @@
+const {
+  PG_HOST,
+  PG_PORT,
+  PG_USER,
+  PG_PASSWORD,
+  PG_DATABASE,
+  DB_TYPE,
+  NODE_ENV,
+} = require(`./${
+  process.env.NODE_ENV === 'development' ? 'src' : 'dist'
+}/config/index${process.env.NODE_ENV === 'development' ? '.ts' : ''}`);
+
 module.exports = {
-  type: 'postgres',
-  host: 'localhost',
-  port: '5432',
-  username: 'postgres',
-  password: 'postgres',
-  database: 'clothing_store',
+  type: DB_TYPE,
+  host: PG_HOST,
+  port: PG_PORT,
+  username: PG_USER,
+  password: PG_PASSWORD,
+  database: PG_DATABASE,
   synchronize: true,
-  logging: true,
-  entities: ['src/models/**/*.*'],
-  migrations: ['src/migration/**/*.*'],
-  subscribers: ['src/subscriber/**/*.*'],
+  logging: NODE_ENV === 'development',
+  entities: [`${NODE_ENV === 'development' ? 'src' : 'dist'}/models/**/*.*`],
+  migrations: [
+    `${NODE_ENV === 'development' ? 'src' : 'dist'}/migration/**/*.*`,
+  ],
+  subscribers: [
+    `${NODE_ENV === 'development' ? 'src' : 'dist'}/subscriber/**/*.*`,
+  ],
   cli: {
     entitiesDir: 'src/models',
     migrationsDir: 'src/migration',
