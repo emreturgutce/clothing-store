@@ -22,6 +22,7 @@
     "consistent-return": "off",
     "indent": "off",
     "no-unused-vars": "warn",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "no-async-promise-executor": "off"
   }
 }
