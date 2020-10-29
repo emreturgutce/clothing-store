@@ -11,13 +11,17 @@ export class MeResolver {
   async me(@Ctx() { req }: Context): Promise<User | null> {
     const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    if (!id) {
-      return null;
-    }
-
     const user = await User.findOne({
       where: { id },
-      select: ['id', 'email', 'detail', 'confirmed', 'createdAt', 'updatedAt'],
+      select: [
+        'id',
+        'email',
+        'detail',
+        'avatar',
+        'confirmed',
+        'createdAt',
+        'updatedAt',
+      ],
       relations: ['detail'],
     });
 
