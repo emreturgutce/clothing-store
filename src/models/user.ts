@@ -4,11 +4,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { UserDetail } from './user-detail';
+import { Product } from './product';
 
 @ObjectType()
 @Entity()
@@ -32,6 +34,10 @@ export class User extends BaseEntity {
   @OneToOne(() => UserDetail)
   @JoinColumn()
   detail!: UserDetail;
+
+  @Field(() => [Product])
+  @OneToMany(() => Product, (photo) => photo.owner)
+  products!: Product[];
 
   @Field({ nullable: true })
   @CreateDateColumn({
