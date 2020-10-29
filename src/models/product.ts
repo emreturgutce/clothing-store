@@ -5,10 +5,12 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Category } from './category';
+import { User } from './user';
 
 @ObjectType()
 @Entity()
@@ -33,10 +35,14 @@ export class Product extends BaseEntity {
   @Column('int')
   stock!: number;
 
-  @Field(() => Category, { nullable: true })
+  @Field(() => [Category], { nullable: true })
   @ManyToMany(() => Category)
   @JoinTable()
   categories?: Category[];
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.products)
+  owner!: User;
 
   @Field({ nullable: true })
   @CreateDateColumn({
