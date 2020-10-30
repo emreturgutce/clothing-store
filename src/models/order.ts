@@ -39,8 +39,8 @@ export class Order extends BaseEntity {
   status!: OrderStatus;
 
   @Field()
-  @Column({ default: calculateExpiration(), type: 'timestamp' })
-  expiresAt!: Date;
+  @Column({ default: calculateExpiration(), type: 'bigint' })
+  expiresAt!: number;
 
   @Field(() => [OrderProduct])
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
