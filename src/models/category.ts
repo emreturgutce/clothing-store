@@ -29,4 +29,18 @@ export class Category extends BaseEntity {
     type: 'timestamp',
   })
   updatedAt!: Date;
+
+  static async findByNames(names: string[] = []): Promise<Category[]> {
+    const categories: Category[] = [];
+
+    for await (const name of names) {
+      const category = await Category.findOne({ where: { name } });
+
+      if (category) {
+        categories.push(category);
+      }
+    }
+
+    return categories;
+  }
 }
