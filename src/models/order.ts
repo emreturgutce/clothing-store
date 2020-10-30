@@ -3,8 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
@@ -25,7 +25,7 @@ export class Order extends BaseEntity {
   id!: string;
 
   @Field()
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   user!: User;
 
   @Field()
