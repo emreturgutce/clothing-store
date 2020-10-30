@@ -7,8 +7,9 @@ export class UpdateCategoryResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async updateCategory(
+    @Arg('id') id: string,
     @Arg('data')
-    { id, name }: CategoryInput,
+    { name }: CategoryInput,
   ): Promise<boolean> {
     const result = await Category.update({ id }, { name });
 
