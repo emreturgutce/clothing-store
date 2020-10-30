@@ -1,12 +1,9 @@
 import { Length } from 'class-validator';
-import { Field, ID, InputType } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 
 @InputType()
 export class CategoryInput {
-  @Field(() => ID, { nullable: true })
-  id?: string;
-
   @Field()
-  @Length(2, 255)
+  @Length(2, 255, { message: 'name must be between 2 and 255 characters' })
   name!: string;
 }
