@@ -11,7 +11,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
 
-enum Status {
+export enum OrderStatus {
   created = 'CREATED',
   paymentWaiting = 'PAYMENT_WAITING',
   cancelled = 'CANCELLED',
@@ -25,20 +25,22 @@ export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Field()
+  @Field(() => User)
   @ManyToOne(() => User)
   user!: User;
 
   @Field()
   @Column({
     type: 'enum',
-    enum: Status,
-    default: Status.created,
+    enum: OrderStatus,
+    default: OrderStatus.created,
   })
-  status!: Status;
+  status!: OrderStatus;
 
   @Field(() => [OrderProduct])
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+    onDelete: 'CASCADE',
+  })
   orderProducts!: OrderProduct[];
 
   @Field({ nullable: true })
