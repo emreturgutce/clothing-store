@@ -35,12 +35,12 @@ export class User extends BaseEntity {
   avatar?: string;
 
   @Field()
-  @OneToOne(() => UserDetail)
+  @OneToOne(() => UserDetail, { onDelete: 'CASCADE' })
   @JoinColumn()
   detail!: UserDetail;
 
   @Field(() => [Product])
-  @OneToMany(() => Product, (photo) => photo.owner)
+  @OneToMany(() => Product, (photo) => photo.owner, { onDelete: 'CASCADE' })
   products!: Product[];
 
   @Field({ nullable: true })

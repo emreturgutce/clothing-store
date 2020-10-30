@@ -3,9 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
@@ -20,12 +18,13 @@ export class OrderProduct extends BaseEntity {
   id!: string;
 
   @Field(() => Order)
-  @ManyToOne(() => Order, (order) => order.orderProducts)
+  @ManyToOne(() => Order, (order) => order.orderProducts, {
+    onDelete: 'CASCADE',
+  })
   order!: Order;
 
-  @Field()
-  @OneToOne(() => Product)
-  @JoinColumn()
+  @Field(() => Product)
+  @ManyToOne(() => Product)
   product!: Product;
 
   @Field()
