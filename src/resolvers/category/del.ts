@@ -6,10 +6,10 @@ export class DelCategoryResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async delCategory(
-    @Arg('categoryId')
-    categoryId: string,
+    @Arg('id')
+    id: string,
   ): Promise<boolean> {
-    const result = await Category.delete(categoryId);
+    const result = await Category.delete(id);
 
     if (!result.affected) {
       return false;

@@ -5,10 +5,8 @@ import { Category } from '../../models/category';
 export class GetCategoryByIdResolver {
   @Authorized()
   @Query(() => Category, { nullable: true })
-  async getCategoryById(
-    @Arg('categoryId') categoryId: string,
-  ): Promise<Category | undefined> {
-    const category = await Category.findOne({ where: { id: categoryId } });
+  async getCategoryById(@Arg('id') id: string): Promise<Category | undefined> {
+    const category = await Category.findOne({ where: { id } });
 
     return category;
   }
