@@ -12,9 +12,10 @@ import { User } from './user';
 import { OrderProduct } from './order-product';
 
 enum Status {
-  complete = 'COMPLETE',
+  created = 'CREATED',
+  paymentWaiting = 'PAYMENT_WAITING',
   cancelled = 'CANCELLED',
-  pending = 'PENDING',
+  complete = 'COMPLETE',
 }
 
 @ObjectType()
@@ -32,7 +33,7 @@ export class Order extends BaseEntity {
   @Column({
     type: 'enum',
     enum: Status,
-    default: Status.pending,
+    default: Status.created,
   })
   status!: Status;
 
