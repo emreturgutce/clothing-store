@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Order, OrderStatus } from '../../models/order';
 import { Context } from '../../types/context';
@@ -7,7 +7,7 @@ import { JWT_SECRET } from '../../config';
 @Resolver()
 export class ChangeOrderStatusResolver {
   @Authorized()
-  @Query(() => Boolean, { nullable: true })
+  @Mutation(() => Boolean, { nullable: true })
   async changeOrderStatus(
     @Arg('id') id: string,
     @Arg('status') status: OrderStatus,
