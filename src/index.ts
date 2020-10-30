@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import session from 'express-session';
+import cors from 'cors';
 import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
@@ -36,6 +37,8 @@ async function main() {
   });
 
   const app = express();
+
+  app.use(cors());
 
   app.use(
     session({
