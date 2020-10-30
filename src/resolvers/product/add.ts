@@ -11,9 +11,9 @@ import { JWT_SECRET } from '../../config';
 export class AddProductResolver {
   @Authorized()
   @Mutation(() => Product, { nullable: true })
-  async add(
+  async addProduct(
     @Arg('data')
-    { name, price, description, stock, categoriesIds }: ProductInput,
+    { name, price, description, stock, categoryNames }: ProductInput,
     @Ctx() { req }: Context,
   ): Promise<Product | null> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
@@ -26,13 +26,9 @@ export class AddProductResolver {
       return null;
     }
 
-    let categories: Category[] | undefined;
+    const categories = await Category.findByNames(categoryNames);
 
-    if (categoriesIds) {
-      categories = await Category.findByIds(categoriesIds);
-    }
-
-    const product = Product.create({
+    const product = await Product.create({
       name,
       price,
       description,
