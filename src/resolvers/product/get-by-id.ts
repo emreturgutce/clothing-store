@@ -5,10 +5,8 @@ import { Product } from '../../models/product';
 export class GetProductByIdResolver {
   @Authorized()
   @Query(() => Product, { nullable: true })
-  async getProductById(
-    @Arg('productId') productId: string,
-  ): Promise<Product | undefined> {
-    const product = await Product.findOne(productId);
+  async getProductById(@Arg('id') id: string): Promise<Product | undefined> {
+    const product = await Product.findOne(id);
 
     return product;
   }

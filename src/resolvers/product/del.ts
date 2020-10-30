@@ -5,11 +5,8 @@ import { Product } from '../../models/product';
 export class DelProductResolver {
   @Authorized()
   @Mutation(() => Boolean)
-  async delProduct(
-    @Arg('productId')
-    productId: string,
-  ): Promise<boolean> {
-    const result = await Product.delete(productId);
+  async delProduct(@Arg('id') id: string): Promise<boolean> {
+    const result = await Product.delete(id);
 
     if (!result.affected) {
       return false;
