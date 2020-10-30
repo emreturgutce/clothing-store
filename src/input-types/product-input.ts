@@ -3,6 +3,9 @@ import { Field, ID, InputType } from 'type-graphql';
 
 @InputType()
 export class ProductInput {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
   @Field()
   @Length(2, 255)
   name!: string;
@@ -19,6 +22,6 @@ export class ProductInput {
   @IsNumber()
   stock!: number;
 
-  @Field(() => [ID], { nullable: true })
-  categoriesIds?: string[];
+  @Field(() => [String], { nullable: true })
+  categoryNames?: string[];
 }
