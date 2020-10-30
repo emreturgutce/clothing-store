@@ -9,6 +9,7 @@ import path from 'path';
 import { SESSION_SECRET, PORT, NODE_ENV } from './config';
 import { redis } from './config/redis';
 import { authChecker } from './utils/auth-checker';
+import { formatError } from './utils/format-error';
 import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
 
 async function main() {
@@ -31,6 +32,7 @@ async function main() {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }) => ({ req, res }),
+    formatError,
   });
 
   const app = express();
