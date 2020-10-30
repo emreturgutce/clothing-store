@@ -1,11 +1,8 @@
 import { IsNumber, Length } from 'class-validator';
-import { Field, ID, InputType } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 
 @InputType()
 export class ProductInput {
-  @Field(() => ID, { nullable: true })
-  id?: string;
-
   @Field()
   @Length(2, 255)
   name!: string;
