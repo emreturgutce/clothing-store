@@ -25,6 +25,7 @@
     "no-shadow": "off",
     "no-async-promise-executor": "off",
     "import/no-dynamic-require": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "max-classes-per-file": "off"
   }
 }
