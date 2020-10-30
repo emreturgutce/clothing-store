@@ -16,8 +16,9 @@ export class UpdateProductResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async updateProduct(
+    @Arg('id') id: string,
     @Arg('data')
-    { id, name, description, price, stock, categoryNames }: ProductInput,
+    { name, description, price, stock, categoryNames }: ProductInput,
   ): Promise<boolean> {
     let categories: Category[];
 
