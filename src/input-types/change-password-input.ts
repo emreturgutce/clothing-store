@@ -7,6 +7,6 @@ export class ChangePasswordInput {
   token!: string;
 
   @Field()
-  @Length(5, 255)
+  @Length(6, 255, { message: 'password must be between 6 and 255 characters' })
   password!: string;
 }
