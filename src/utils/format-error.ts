@@ -20,5 +20,5 @@ export const formatError = (
     return { message: errors.toString() };
   }
 
-  return err;
+  return { message: err.message };
 };
