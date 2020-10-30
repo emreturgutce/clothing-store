@@ -10,6 +10,7 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
+import { calculateExpiration } from '../utils/calculate-expiration';
 
 export enum OrderStatus {
   created = 'CREATED',
@@ -36,6 +37,10 @@ export class Order extends BaseEntity {
     default: OrderStatus.created,
   })
   status!: OrderStatus;
+
+  @Field()
+  @Column({ default: calculateExpiration(), type: 'timestamp' })
+  expiresAt!: Date;
 
   @Field(() => [OrderProduct])
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
