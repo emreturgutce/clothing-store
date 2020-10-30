@@ -2,10 +2,10 @@ import { Authorized, Query, Resolver } from 'type-graphql';
 import { Product } from '../../models/product';
 
 @Resolver()
-export class GetAllProductsResolver {
+export class GetProductsResolver {
   @Authorized()
   @Query(() => [Product], { nullable: true })
-  async getAllProducts(): Promise<Product[]> {
+  async getProducts(): Promise<Product[]> {
     const products = await Product.find({});
 
     return products;
