@@ -12,11 +12,11 @@ interface Options {
 
 let schema: GraphQLSchema;
 
-export const gCall = async ({ source, variableValues, userId }: Options) => {
-  if (!schema) {
-    schema = await createSchema();
-  }
+(async () => {
+  schema = await createSchema();
+})();
 
+export const gCall = async ({ source, variableValues, userId }: Options) => {
   return graphql({
     schema,
     source,
