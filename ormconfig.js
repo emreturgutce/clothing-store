@@ -7,8 +7,18 @@ const {
   DB_TYPE,
   NODE_ENV,
 } = require(`./${
-  process.env.NODE_ENV === 'development' ? 'src' : 'dist'
-}/config/index${process.env.NODE_ENV === 'development' ? '.ts' : ''}`);
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+    ? 'src'
+    : 'dist'
+}/config/index${
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+    ? '.ts'
+    : ''
+}`);
+
+const isProd = NODE_ENV !== 'development' && NODE_ENV !== 'test';
+
+const database = NODE_ENV === 'test' ? 'clothing_store_test' : PG_DATABASE;
 
 module.exports = {
   type: DB_TYPE,
@@ -16,16 +26,13 @@ module.exports = {
   port: PG_PORT,
   username: PG_USER,
   password: PG_PASSWORD,
-  database: PG_DATABASE,
+  database,
   synchronize: true,
   logging: NODE_ENV === 'development',
-  entities: [`${NODE_ENV === 'development' ? 'src' : 'dist'}/models/**/*.*`],
-  migrations: [
-    `${NODE_ENV === 'development' ? 'src' : 'dist'}/migration/**/*.*`,
-  ],
-  subscribers: [
-    `${NODE_ENV === 'development' ? 'src' : 'dist'}/subscriber/**/*.*`,
-  ],
+  entities: [`${isProd ? 'src' : 'dist'}/models/**/*.*`],
+  dropSchema: NODE_ENV === 'test',
+  migrations: [`${isProd ? 'src' : 'dist'}/migration/**/*.*`],
+  subscribers: [`${isProd ? 'src' : 'dist'}/subscriber/**/*.*`],
   cli: {
     entitiesDir: 'src/models',
     migrationsDir: 'src/migration',
