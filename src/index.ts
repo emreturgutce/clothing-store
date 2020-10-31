@@ -7,9 +7,8 @@ import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
 import { SESSION_SECRET, PORT, NODE_ENV } from './config';
 import { redis } from './config/redis';
-import { formatError } from './utils/format-error';
+import { formatError, createSchema } from './utils';
 import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
-import { createSchema } from './utils/create-schema';
 
 async function main() {
   createConnection()

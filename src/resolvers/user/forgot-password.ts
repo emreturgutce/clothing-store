@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { FORGOT_PASSWORD_PREFIX } from '../../constants';
 import { User } from '../../models/user';
 import { redis } from '../../config/redis';
-import { sendEmail } from '../../utils/send-email';
+import { sendEmail } from '../../utils';
 
 @Resolver()
 export class ForgotPasswordResolver {

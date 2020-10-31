@@ -10,7 +10,7 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
-import { calculateExpiration } from '../utils/calculate-expiration';
+import { calculateExpiration } from '../utils';
 
 export enum OrderStatus {
   created = 'CREATED',

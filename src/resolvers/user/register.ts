@@ -6,8 +6,7 @@ import { User } from '../../models/user';
 import { Context } from '../../types/context';
 import { JWT_SECRET } from '../../config';
 import { UserDetail } from '../../models/user-detail';
-import { sendEmail } from '../../utils/send-email';
-import { createConfirmationUrl } from '../../utils/create-confirmation-url';
+import { sendEmail, createConfirmationUrl } from '../../utils';
 
 @Resolver()
 export class RegisterUserResolver {

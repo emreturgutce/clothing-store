@@ -1,5 +1,5 @@
 import { createConnection, getConnection } from 'typeorm';
-import { clearDatabase } from '../utils/clear-database';
+import { clearDatabase } from '../utils';
 
 beforeAll(async () => {
   await createConnection();

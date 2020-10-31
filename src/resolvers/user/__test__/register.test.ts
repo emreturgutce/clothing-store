@@ -1,4 +1,4 @@
-import { gCall } from '../../../utils/g-call';
+import { gCall } from '../../../utils';
 
 const registerMutation = `
   mutation Register($data: RegisterInput!) {
