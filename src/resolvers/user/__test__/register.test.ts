@@ -1,24 +1,9 @@
-import { gCall } from '../../../utils';
+import { registerMutation } from '../../../mutations';
+import { createFakeUser, gCall } from '../../../utils';
 
-const registerMutation = `
-  mutation Register($data: RegisterInput!) {
-    register(
-      data: $data
-    ) {
-      id
-      email
-    }
-  }
-`;
-
-describe('Register', () => {
+describe('Register Test Suite', () => {
   it('create user', async () => {
-    const user = {
-      name: 'emre',
-      phone: '+905358885555',
-      email: 'sdgdsgsdg@test.com',
-      password: '123456',
-    };
+    const user = createFakeUser();
 
     await gCall({
       source: registerMutation,
