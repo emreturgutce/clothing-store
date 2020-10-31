@@ -27,6 +27,7 @@
     "no-async-promise-executor": "off",
     "import/no-dynamic-require": "off",
     "no-restricted-syntax": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "arrow-body-style": "off"
   }
 }
