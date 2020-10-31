@@ -1,8 +1,6 @@
 import { graphql, GraphQLSchema } from 'graphql';
 import { Maybe } from 'graphql/jsutils/Maybe';
-import { buildSchema } from 'type-graphql';
-import path from 'path';
-import { authChecker } from '../utils/auth-checker';
+import { createSchema } from './create-schema';
 
 interface Options {
   source: string;
@@ -16,10 +14,7 @@ let schema: GraphQLSchema;
 
 export const gCall = async ({ source, variableValues, userId }: Options) => {
   if (!schema) {
-    schema = await buildSchema({
-      resolvers: [path.join(__dirname, '../resolvers/**/*.*')],
-      authChecker,
-    });
+    schema = await createSchema();
   }
 
   return graphql({
