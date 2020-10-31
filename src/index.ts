@@ -5,13 +5,11 @@ import session from 'express-session';
 import cors from 'cors';
 import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
-import { buildSchema } from 'type-graphql';
-import path from 'path';
 import { SESSION_SECRET, PORT, NODE_ENV } from './config';
 import { redis } from './config/redis';
-import { authChecker } from './utils/auth-checker';
 import { formatError } from './utils/format-error';
 import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
+import { createSchema } from './utils/create-schema';
 
 async function main() {
   createConnection()
@@ -25,10 +23,7 @@ async function main() {
 
   const RedisStore = connectRedis(session);
 
-  const schema = await buildSchema({
-    resolvers: [path.join(__dirname, '/resolvers/**/*.*')],
-    authChecker,
-  });
+  const schema = await createSchema();
 
   const server = new ApolloServer({
     schema,
