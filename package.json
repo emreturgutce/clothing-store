@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:dev": "ts-node-dev src/index.ts"
+    "start:dev": "ts-node-dev src/index.ts",
+    "test": "jest --runInBand --watchAll --no-cache"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -15,6 +16,7 @@
     "@types/express-session": "^1.17.0",
     "@types/graphql": "^14.5.0",
     "@types/ioredis": "^4.17.6",
+    "@types/jest": "^26.0.15",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/nodemailer": "^6.4.0",
     "@types/stream-to-promise": "^2.2.1",
@@ -24,6 +26,8 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.1",
+    "ts-jest": "^26.4.3",
     "ts-node-dev": "^1.0.0",
     "typescript": "^4.0.3"
   },
@@ -50,5 +54,12 @@
   },
   "resolutions": {
     "graphql-upload": "^11.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   }
 }
