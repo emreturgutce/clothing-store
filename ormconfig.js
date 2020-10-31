@@ -31,6 +31,8 @@ module.exports = {
   logging: NODE_ENV === 'development',
   entities: [`${isProd ? 'src' : 'dist'}/models/**/*.*`],
   dropSchema: NODE_ENV === 'test',
+  seeds: [`${isProd ? 'src' : 'dist'}/seeds/**/*.*`],
+  factories: [`${isProd ? 'src' : 'dist'}/factories/**/*.*`],
   migrations: [`${isProd ? 'src' : 'dist'}/migration/**/*.*`],
   subscribers: [`${isProd ? 'src' : 'dist'}/subscriber/**/*.*`],
   cli: {
