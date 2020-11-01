@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { Length } from 'class-validator';
 
 @ObjectType()
 @Entity()
@@ -16,6 +17,7 @@ export class Category extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
+  @Length(2, 255, { message: 'name must be between 2 and 255 characters' })
   name!: string;
 
   @Field({ nullable: true })

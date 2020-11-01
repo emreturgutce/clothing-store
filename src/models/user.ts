@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
 import { Product } from './product';
 
@@ -21,9 +22,11 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
+  @IsEmail(undefined, { message: 'email must be valid' })
   email!: string;
 
   @Column()
+  @Length(6, 255, { message: 'password must be between 6 and 255 characters' })
   password!: string;
 
   @Field({ defaultValue: false })

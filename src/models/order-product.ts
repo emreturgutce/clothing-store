@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { Min } from 'class-validator';
 import { Order } from './order';
 import { Product } from './product';
 
@@ -29,6 +30,7 @@ export class OrderProduct extends BaseEntity {
 
   @Field()
   @Column('int', { default: 1 })
+  @Min(0)
   quantity!: number;
 
   @Field({ nullable: true })

@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { IsNumber, Length, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
 
@@ -21,18 +22,26 @@ export class Product extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
+  @Length(2, 255, { message: 'name must be between 2 and 255 characters' })
   name!: string;
 
   @Field()
   @Column('float')
+  @IsNumber(undefined, { message: 'price must be number' })
+  @Min(0)
   price!: number;
 
   @Field()
   @Column('text')
+  @Length(2, 255, {
+    message: 'description must be between 2 and 255 characters',
+  })
   description!: string;
 
   @Field()
   @Column('int')
+  @IsNumber(undefined, { message: 'price must be number' })
+  @Min(0)
   stock!: number;
 
   @Field(() => [Category], { nullable: true })
