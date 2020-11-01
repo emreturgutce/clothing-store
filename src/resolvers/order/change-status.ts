@@ -13,11 +13,40 @@ export class ChangeOrderStatusResolver {
     @Arg('status') status: OrderStatus,
     @Ctx() { req }: Context,
   ): Promise<boolean> {
+    if (status === OrderStatus.created) {
+      return false;
+    }
+
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const order = await Order.findOne(id, { relations: ['user'] });
+    const order = await Order.findOne(id, {
+      join: {
+        alias: 'order',
+        leftJoinAndSelect: {
+          user: 'order.user',
+          orderProducts: 'order.orderProducts',
+          product: 'orderProducts.product',
+        },
+      },
+    });
 
     if (!order) {
+      return false;
+    }
+
+    if (order.status === OrderStatus.cancelled) {
+      return false;
+    }
+
+    if (order.expiresAt < new Date().getTime()) {
+      order.status = OrderStatus.cancelled;
+
+      await order.save();
+
+      return false;
+    }
+
+    if (status === order.status) {
       return false;
     }
 
@@ -25,7 +54,22 @@ export class ChangeOrderStatusResolver {
       return false;
     }
 
-    order.status = status;
+    if (status === OrderStatus.completed) {
+      if (order.status === OrderStatus.paymentWaiting) {
+        order.status = status;
+      } else {
+        return false;
+      }
+    } else {
+      if (status === OrderStatus.cancelled) {
+        for await (const { product, quantity } of order.orderProducts) {
+          product.stock += quantity;
+
+          await product.save();
+        }
+      }
+      order.status = status;
+    }
 
     await order.save();
 
