@@ -1,8 +1,10 @@
 {
   "name": "clothing-store",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.ts",
   "license": "MIT",
+  "author": "emreturgutce <emrebursalee@gmail.com>",
+  "repository": "git@github.com:emreturgutce/clothing-store.git",
   "scripts": {
     "start:dev": "ts-node-dev src/index.ts",
     "test": "jest --runInBand --watchAll --no-cache",
