@@ -24,7 +24,6 @@ export class DetailResolver {
       select: ['id', 'email', 'detail'],
       relations: ['detail'],
     });
-    console.log(user);
 
     if (!user) {
       return null;

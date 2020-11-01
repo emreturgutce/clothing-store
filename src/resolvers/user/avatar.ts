@@ -27,13 +27,12 @@ export class AvatarResolver {
         return false;
       }
 
-      const { createReadStream, filename } = await file;
+      const { createReadStream } = file;
 
       const readStream = createReadStream();
 
       streamToPromise(readStream)
         .then(async (data) => {
-          console.log(user);
           user.avatar = data.toString('base64');
           await user.save();
           resolve(true);

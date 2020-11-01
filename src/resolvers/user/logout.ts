@@ -8,9 +8,8 @@ export class MeResolver {
   @Query(() => Boolean)
   async logout(@Ctx() ctx: Context): Promise<Boolean | any> {
     return new Promise((resolve, reject) => {
-      ctx.req.session!.destroy((err) => {
+      ctx.req.session!.destroy((err: Error) => {
         if (err) {
-          console.error(err);
           return reject(err);
         }
 
