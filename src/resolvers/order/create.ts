@@ -31,6 +31,14 @@ export class CreateOrderResolver {
         where: { id: productId },
       });
 
+      if (!product) {
+        continue;
+      }
+
+      product.stock -= quantity;
+
+      await product.save();
+
       const orderProduct = await OrderProduct.create({
         product,
         quantity,
