@@ -6,7 +6,9 @@
   "author": "emreturgutce <emrebursalee@gmail.com>",
   "repository": "git@github.com:emreturgutce/clothing-store.git",
   "scripts": {
+    "start": "node dist/index.js",
     "start:dev": "ts-node-dev src/index.ts",
+    "build": "tsc",
     "test": "jest --runInBand --watchAll --no-cache",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
