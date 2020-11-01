@@ -2,7 +2,7 @@ import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { FORGOT_PASSWORD_PREFIX } from '../../constants';
 import { User } from '../../models/user';
-import { redis } from '../../config/redis';
+import { redis } from '../../config';
 import { ChangePasswordInput } from '../../input-types/change-password-input';
 import { Context } from '../../types';
 

@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { CONFIRM_USER_PREFIX } from '../constants';
-import { redis } from '../config/redis';
+import { redis } from '../config';
 
 export const createConfirmationUrl = async (
   userId: string,

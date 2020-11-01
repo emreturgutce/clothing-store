@@ -1,5 +1,5 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
-import { redis } from '../../config/redis';
+import { redis } from '../../config';
 import { User } from '../../models/user';
 import { CONFIRM_USER_PREFIX } from '../../constants';
 

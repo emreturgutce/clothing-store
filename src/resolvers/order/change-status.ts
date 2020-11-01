@@ -9,8 +9,7 @@ import {
 import jwt from 'jsonwebtoken';
 import { Order } from '../../models/order';
 import { Context, OrderStatus } from '../../types';
-import { JWT_SECRET } from '../../config';
-import { stripe } from '../../config/stripe';
+import { JWT_SECRET, stripe } from '../../config';
 import { Payment } from '../../models/payment';
 import { ChangeStatusInput } from '../../input-types/change-status-input';
 
