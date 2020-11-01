@@ -51,6 +51,8 @@ async function main() {
     }),
   );
 
+  app.disable('x-powered-by');
+
   server.applyMiddleware({ app });
 
   app.listen(PORT, () => {
