@@ -36,7 +36,7 @@ app.use(
 );
 
 initializeApolloServer(app).catch((err) => {
-  console.error(err);
+  console.error(`${err}`.red);
   process.exit(1);
 });
 

@@ -21,7 +21,7 @@ export const sendEmail = async (email: string, url: string) => {
     html: `<a href="${url}">${url}</a> `, // html body
   });
 
-  console.log('Message sent: %s', info.messageId);
+  console.info(`Message sent: ${info.messageId}`.cyan);
 
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  console.info(`Preview URL:  ${nodemailer.getTestMessageUrl(info)}`.cyan);
 };
