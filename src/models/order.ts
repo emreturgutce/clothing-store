@@ -12,7 +12,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
 import { ORDER_EXPIRATION_TIME } from '../constants';
-import { OrderStatus } from '../types/order-status';
+import { OrderStatus } from '../types';
 
 @ObjectType()
 @Entity()

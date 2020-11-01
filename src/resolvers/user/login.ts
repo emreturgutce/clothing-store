@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { LoginInput } from '../../input-types/login-input';
 import { User } from '../../models/user';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 import { JWT_SECRET } from '../../config';
 
 @Resolver()

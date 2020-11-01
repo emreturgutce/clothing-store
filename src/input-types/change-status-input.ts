@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql';
-import { OrderStatus } from '../types/order-status';
+import { OrderStatus } from '../types';
 
 @InputType()
 export class ChangeStatusInput {

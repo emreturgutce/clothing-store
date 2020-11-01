@@ -1,6 +1,6 @@
 import { Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import { COOKIE_NAME } from '../../constants';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 
 @Resolver()
 export class MeResolver {

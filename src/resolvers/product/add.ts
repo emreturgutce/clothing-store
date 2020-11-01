@@ -4,7 +4,7 @@ import { ProductInput } from '../../input-types/product-input';
 import { Category } from '../../models/category';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 import { JWT_SECRET } from '../../config';
 
 @Resolver()

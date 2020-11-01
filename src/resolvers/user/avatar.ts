@@ -1,10 +1,9 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
-import { writeFileSync } from 'fs';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import jwt from 'jsonwebtoken';
 import streamToPromise from 'stream-to-promise';
 import { User } from '../../models/user';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 import { JWT_SECRET } from '../../config';
 
 @Resolver()

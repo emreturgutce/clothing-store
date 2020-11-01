@@ -6,7 +6,7 @@ import { Order } from '../../models/order';
 import { OrderProduct } from '../../models/order-product';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 
 @Resolver()
 export class CreateOrderResolver {

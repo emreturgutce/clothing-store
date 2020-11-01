@@ -8,8 +8,7 @@ import {
 } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Order } from '../../models/order';
-import { Context } from '../../types/context';
-import { OrderStatus } from '../../types/order-status';
+import { Context, OrderStatus } from '../../types';
 import { JWT_SECRET } from '../../config';
 import { stripe } from '../../config/stripe';
 import { Payment } from '../../models/payment';

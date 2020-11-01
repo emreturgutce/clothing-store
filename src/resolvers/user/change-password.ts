@@ -4,7 +4,7 @@ import { FORGOT_PASSWORD_PREFIX } from '../../constants';
 import { User } from '../../models/user';
 import { redis } from '../../config/redis';
 import { ChangePasswordInput } from '../../input-types/change-password-input';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 
 @Resolver()
 export class ChangePasswordResolver {

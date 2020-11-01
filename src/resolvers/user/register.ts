@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { RegisterInput } from '../../input-types/register-input';
 import { User } from '../../models/user';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 import { JWT_SECRET } from '../../config';
 import { UserDetail } from '../../models/user-detail';
 import { sendEmail, createConfirmationUrl } from '../../utils';

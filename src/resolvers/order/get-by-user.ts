@@ -1,6 +1,6 @@
 import { Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
-import { Context } from '../../types/context';
+import { Context } from '../../types';
 import { JWT_SECRET } from '../../config';
 import { Order } from '../../models/order';
 
