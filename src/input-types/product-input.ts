@@ -1,4 +1,4 @@
-import { IsNumber, Length } from 'class-validator';
+import { IsNumber, Length, Min } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
@@ -9,6 +9,7 @@ export class ProductInput {
 
   @Field()
   @IsNumber(undefined, { message: 'price must be number' })
+  @Min(0)
   price!: number;
 
   @Field()
@@ -19,6 +20,7 @@ export class ProductInput {
 
   @Field()
   @IsNumber(undefined, { message: 'price must be number' })
+  @Min(0)
   stock!: number;
 
   @Field(() => [String], { nullable: true })
