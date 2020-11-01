@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === 'production';
+
 const {
   PG_HOST,
   PG_PORT,
@@ -6,17 +8,7 @@ const {
   PG_DATABASE,
   DB_TYPE,
   NODE_ENV,
-} = require(`./${
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
-    ? 'src'
-    : 'dist'
-}/config/index${
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
-    ? '.ts'
-    : ''
-}`);
-
-const isProd = NODE_ENV !== 'development' && NODE_ENV !== 'test';
+} = require(`./${isProd ? 'dist' : 'src'}/config/index${isProd ? '' : '.ts'}`);
 
 const database = NODE_ENV === 'test' ? 'clothing_store_test' : PG_DATABASE;
 
@@ -29,15 +21,15 @@ module.exports = {
   database,
   synchronize: true,
   logging: NODE_ENV === 'development',
-  entities: [`${!isProd ? 'src' : 'dist'}/models/**/*.*`],
+  entities: [`${isProd ? 'dist' : 'src'}/models/**/*.*`],
   dropSchema: NODE_ENV === 'test',
-  seeds: [`${!isProd ? 'src' : 'dist'}/seeds/**/*.*`],
-  factories: [`${!isProd ? 'src' : 'dist'}/factories/**/*.*`],
-  migrations: [`${!isProd ? 'src' : 'dist'}/migration/**/*.*`],
-  subscribers: [`${!isProd ? 'src' : 'dist'}/subscriber/**/*.*`],
+  seeds: [`${isProd ? 'dist' : 'src'}/seeds/**/*.*`],
+  factories: [`${isProd ? 'dist' : 'src'}/factories/**/*.*`],
+  migrations: [`${isProd ? 'dist' : 'src'}/migration/**/*.*`],
+  subscribers: [`${isProd ? 'dist' : 'src'}/subscriber/**/*.*`],
   cli: {
-    entitiesDir: 'src/models',
-    migrationsDir: 'src/migration',
-    subscribersDir: 'src/subscriber',
+    entitiesDir: `${isProd ? 'dist' : 'src'}/models`,
+    migrationsDir: `${isProd ? 'dist' : 'src'}/migration`,
+    subscribersDir: `${isProd ? 'dist' : 'src'}/subscriber`,
   },
 };
