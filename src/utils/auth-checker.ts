@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { AuthChecker } from 'type-graphql';
 import { JWT_SECRET } from '../config';
 import { User } from '../models/user';
-import { Context } from '../types/context';
+import { Context } from '../types';
 
 export const authChecker: AuthChecker<Context> = async ({ context }) => {
   if (!context.req.session) {
