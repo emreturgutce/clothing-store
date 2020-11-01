@@ -33,7 +33,7 @@ export class AvatarResolver {
 
       streamToPromise(readStream)
         .then(async (data) => {
-          user.avatar = data.toString('base64');
+          user.avatar = data;
           await user.save();
           resolve(true);
         })
