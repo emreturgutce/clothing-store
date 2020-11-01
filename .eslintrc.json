@@ -29,6 +29,7 @@
     "no-restricted-syntax": "off",
     "max-classes-per-file": "off",
     "arrow-body-style": "off",
-    "no-continue": "off"
+    "no-continue": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }
