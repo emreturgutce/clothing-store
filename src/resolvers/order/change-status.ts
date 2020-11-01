@@ -1,20 +1,35 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Mutation,
+  Resolver,
+  createUnionType,
+} from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Order, OrderStatus } from '../../models/order';
 import { Context } from '../../types/context';
 import { JWT_SECRET } from '../../config';
+import { stripe } from '../../config/stripe';
+import { Payment } from '../../models/payment';
+
+const ReturnType = createUnionType({
+  name: 'ReturnType',
+  types: () => [Payment, Order] as const,
+});
 
 @Resolver()
 export class ChangeOrderStatusResolver {
   @Authorized()
-  @Mutation(() => Boolean, { nullable: true })
+  @Mutation(() => ReturnType, { nullable: true })
   async changeOrderStatus(
     @Arg('id') id: string,
     @Arg('status') status: OrderStatus,
     @Ctx() { req }: Context,
-  ): Promise<boolean> {
+    @Arg('token') token?: string,
+  ): Promise<Payment | Order | null> {
     if (status === OrderStatus.created) {
-      return false;
+      return null;
     }
 
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
@@ -31,11 +46,11 @@ export class ChangeOrderStatusResolver {
     });
 
     if (!order) {
-      return false;
+      return null;
     }
 
     if (order.status === OrderStatus.cancelled) {
-      return false;
+      return null;
     }
 
     if (order.expiresAt < new Date().getTime()) {
@@ -43,22 +58,38 @@ export class ChangeOrderStatusResolver {
 
       await order.save();
 
-      return false;
+      return null;
     }
 
     if (status === order.status) {
-      return false;
+      return null;
     }
 
     if (order.user.id !== userId) {
-      return false;
+      return null;
     }
 
     if (status === OrderStatus.completed) {
       if (order.status === OrderStatus.paymentWaiting) {
+        const charge = await stripe.charges.create({
+          currency: 'usd',
+          amount:
+            order.orderProducts
+              .map((oP) => oP.product.price * oP.quantity)
+              .reduce((total, amount) => total + amount) * 100,
+          source: token,
+        });
+
+        const payment = await Payment.create({
+          order,
+          stripeId: charge.id,
+        }).save();
+
         order.status = status;
-      } else {
-        return false;
+
+        await order.save();
+
+        return payment;
       }
     } else {
       if (status === OrderStatus.cancelled) {
@@ -69,10 +100,12 @@ export class ChangeOrderStatusResolver {
         }
       }
       order.status = status;
+
+      await order.save();
+
+      return order;
     }
 
-    await order.save();
-
-    return true;
+    return null;
   }
 }
