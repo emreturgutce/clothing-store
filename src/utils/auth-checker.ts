@@ -5,11 +5,15 @@ import { User } from '../models/user';
 import { Context } from '../types/context';
 
 export const authChecker: AuthChecker<Context> = async ({ context }) => {
-  if (!context.req.session!.userId) {
+  if (!context.req.session) {
     return false;
   }
 
-  const userId = jwt.verify(context.req.session!.userId, JWT_SECRET);
+  if (!context.req.session.userId) {
+    return false;
+  }
+
+  const userId = jwt.verify(context.req.session.userId, JWT_SECRET);
 
   const user = await User.findOne({ where: { id: userId } });
 
