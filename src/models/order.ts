@@ -12,13 +12,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
 import { ORDER_EXPIRATION_TIME } from '../constants';
-
-export enum OrderStatus {
-  created = 'CREATED',
-  paymentWaiting = 'PAYMENT_WAITING',
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-}
+import { OrderStatus } from '../types/order-status';
 
 @ObjectType()
 @Entity()

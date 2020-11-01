@@ -7,11 +7,13 @@ import {
   createUnionType,
 } from 'type-graphql';
 import jwt from 'jsonwebtoken';
-import { Order, OrderStatus } from '../../models/order';
+import { Order } from '../../models/order';
 import { Context } from '../../types/context';
+import { OrderStatus } from '../../types/order-status';
 import { JWT_SECRET } from '../../config';
 import { stripe } from '../../config/stripe';
 import { Payment } from '../../models/payment';
+import { ChangeStatusInput } from '../../input-types/change-status-input';
 
 const ReturnType = createUnionType({
   name: 'ReturnType',
@@ -23,10 +25,8 @@ export class ChangeOrderStatusResolver {
   @Authorized()
   @Mutation(() => ReturnType, { nullable: true })
   async changeOrderStatus(
-    @Arg('id') id: string,
-    @Arg('status') status: OrderStatus,
+    @Arg('data') { id, status, token }: ChangeStatusInput,
     @Ctx() { req }: Context,
-    @Arg('token') token?: string,
   ): Promise<Payment | Order | null> {
     if (status === OrderStatus.created) {
       return null;
