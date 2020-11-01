@@ -45,7 +45,7 @@ async function main() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: NODE_ENV !== 'development',
+        secure: NODE_ENV === 'production',
         maxAge: COOKIE_EXPIRATION,
       },
     }),
