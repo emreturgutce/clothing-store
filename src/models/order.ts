@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -10,13 +11,13 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
-import { calculateExpiration } from '../utils';
+import { ORDER_EXPIRATION_TIME } from '../constants';
 
 export enum OrderStatus {
   created = 'CREATED',
   paymentWaiting = 'PAYMENT_WAITING',
   cancelled = 'CANCELLED',
-  complete = 'COMPLETE',
+  completed = 'COMPLETED',
 }
 
 @ObjectType()
@@ -39,7 +40,7 @@ export class Order extends BaseEntity {
   status!: OrderStatus;
 
   @Field()
-  @Column({ default: calculateExpiration(), type: 'bigint' })
+  @Column({ type: 'bigint' })
   expiresAt!: number;
 
   @Field(() => [OrderProduct])
@@ -59,4 +60,13 @@ export class Order extends BaseEntity {
     type: 'timestamp',
   })
   updatedAt!: Date;
+
+  @BeforeInsert()
+  private generateExpiresAt() {
+    const expiration = new Date();
+
+    this.expiresAt = expiration.setSeconds(
+      expiration.getSeconds() + ORDER_EXPIRATION_TIME,
+    );
+  }
 }
