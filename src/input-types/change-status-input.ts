@@ -6,7 +6,7 @@ export class ChangeStatusInput {
   @Field()
   id!: string;
 
-  @Field(() => OrderStatus)
+  @Field()
   status!: OrderStatus;
 
   @Field()
