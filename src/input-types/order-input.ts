@@ -1,3 +1,4 @@
+import { Min } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
@@ -6,6 +7,7 @@ class OrderProductInput {
   productId!: string;
 
   @Field()
+  @Min(0)
   quantity!: number;
 }
 
