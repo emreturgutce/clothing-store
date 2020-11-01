@@ -5,6 +5,7 @@ import session from 'express-session';
 import cors from 'cors';
 import connectRedis from 'connect-redis';
 import { createConnection } from 'typeorm';
+import helmet from 'helmet';
 import { SESSION_SECRET, PORT, NODE_ENV } from './config';
 import { redis } from './config/redis';
 import { formatError, createSchema } from './utils';
@@ -33,6 +34,7 @@ async function main() {
   const app = express();
 
   app.use(cors());
+  app.use(helmet());
 
   app.use(
     session({
@@ -50,8 +52,6 @@ async function main() {
       },
     }),
   );
-
-  app.disable('x-powered-by');
 
   server.applyMiddleware({ app });
 
