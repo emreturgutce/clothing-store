@@ -35,7 +35,7 @@ export class User extends BaseEntity {
 
   @Field({ nullable: true })
   @Column('bytea', { nullable: true })
-  avatar?: string;
+  avatar?: Buffer;
 
   @Field()
   @OneToOne(() => UserDetail, { onDelete: 'CASCADE' })
