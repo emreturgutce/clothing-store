@@ -3,12 +3,7 @@ import session from 'express-session';
 import cors from 'cors';
 import connectRedis from 'connect-redis';
 import helmet from 'helmet';
-import {
-  SESSION_SECRET,
-  NODE_ENV,
-  redis,
-  initializeApolloServer,
-} from './config';
+import { SESSION_SECRET, NODE_ENV, redis } from './config';
 import { COOKIE_EXPIRATION, COOKIE_NAME } from './constants';
 
 const RedisStore = connectRedis(session);
@@ -34,10 +29,5 @@ app.use(
     },
   }),
 );
-
-initializeApolloServer(app).catch((err) => {
-  console.error(`${err}`.red);
-  process.exit(1);
-});
 
 export { app };

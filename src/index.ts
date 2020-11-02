@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import 'colors';
 import { createConnection } from 'typeorm';
 import { app } from './app';
-import { PORT } from './config';
+import { initializeApolloServer, PORT } from './config';
 
 createConnection()
   .then(() => {
@@ -13,7 +13,14 @@ createConnection()
     process.exit(1);
   });
 
-app.listen(PORT, () => {
-  const url = `http://localhost:4000/graphql`.red;
-  console.log(`🚀 Server ready at ${url}`.bgCyan.black);
-});
+initializeApolloServer(app)
+  .then(() => {
+    app.listen(PORT, () => {
+      const url = `http://localhost:4000/graphql`.red;
+      console.log(`🚀 Server ready at ${url}`.bgCyan.black);
+    });
+  })
+  .catch((err) => {
+    console.error(`${err}`.red);
+    process.exit(1);
+  });
