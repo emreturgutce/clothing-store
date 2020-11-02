@@ -7,13 +7,14 @@ import { OrderProduct } from '../../models/order-product';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
 import { Context } from '../../types';
+import { Address } from '../../models/address';
 
 @Resolver()
 export class CreateOrderResolver {
   @Authorized()
   @Mutation(() => Order, { nullable: true })
   async createOrder(
-    @Arg('orderProducts') { orderProductInputs }: OrderInputs,
+    @Arg('orderProducts') { orderProductInputs, addressId }: OrderInputs,
     @Ctx() { req }: Context,
   ): Promise<Order | null> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
@@ -47,9 +48,12 @@ export class CreateOrderResolver {
       orderProducts.push(orderProduct);
     }
 
+    const address = await Address.findOne({ where: { id: addressId, user } });
+
     const order = await Order.create({
       user,
       orderProducts,
+      address,
     }).save();
 
     return order;
