@@ -15,4 +15,7 @@ class OrderProductInput {
 export class OrderInputs {
   @Field(() => [OrderProductInput])
   orderProductInputs!: OrderProductInput[];
+
+  @Field()
+  addressId!: string;
 }
