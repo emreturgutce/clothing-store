@@ -37,6 +37,7 @@ export class ChangeOrderStatusResolver {
         alias: 'order',
         leftJoinAndSelect: {
           user: 'order.user',
+          address: 'order.address',
           orderProducts: 'order.orderProducts',
           product: 'orderProducts.product',
         },

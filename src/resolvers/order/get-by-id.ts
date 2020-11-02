@@ -10,6 +10,7 @@ export class GetOrderByIdResolver {
       join: {
         alias: 'order',
         leftJoinAndSelect: {
+          address: 'order.address',
           orderProducts: 'order.orderProducts',
           product: 'orderProducts.product',
         },
