@@ -13,6 +13,7 @@ import { User } from './user';
 import { OrderProduct } from './order-product';
 import { ORDER_EXPIRATION_TIME } from '../constants';
 import { OrderStatus } from '../types';
+import { Address } from './address';
 
 @ObjectType()
 @Entity()
@@ -42,6 +43,10 @@ export class Order extends BaseEntity {
     onDelete: 'CASCADE',
   })
   orderProducts!: OrderProduct[];
+
+  @Field(() => Address, { nullable: true })
+  @ManyToOne(() => Address)
+  address!: Address;
 
   @Field({ nullable: true })
   @CreateDateColumn({
