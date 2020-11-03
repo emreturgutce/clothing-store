@@ -20,22 +20,14 @@ export class CreateOrderResolver {
   ): Promise<Order | null> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOne({ where: { id: userId } });
-
-    if (!user) {
-      return null;
-    }
+    const user = await User.findOneOrFail({ where: { id: userId } });
 
     const orderProducts: OrderProduct[] = [];
 
     for await (const { productId, quantity } of orderProductInputs) {
-      const product = await Product.findOne({
+      const product = await Product.findOneOrFail({
         where: { id: productId },
       });
-
-      if (!product) {
-        continue;
-      }
 
       product.stock -= quantity;
 
@@ -49,7 +41,9 @@ export class CreateOrderResolver {
       orderProducts.push(orderProduct);
     }
 
-    const address = await Address.findOne({ where: { id: addressId, user } });
+    const address = await Address.findOneOrFail({
+      where: { id: addressId, user },
+    });
 
     const order = await Order.create({
       user,

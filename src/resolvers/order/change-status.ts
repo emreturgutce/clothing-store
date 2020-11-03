@@ -32,7 +32,7 @@ export class ChangeOrderStatusResolver {
 
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const order = await Order.findOne(id, {
+    const order = await Order.findOneOrFail(id, {
       join: {
         alias: 'order',
         leftJoinAndSelect: {
@@ -43,10 +43,6 @@ export class ChangeOrderStatusResolver {
         },
       },
     });
-
-    if (!order) {
-      return null;
-    }
 
     if (
       order.status === OrderStatus.cancelled ||

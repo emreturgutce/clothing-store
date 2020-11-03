@@ -6,7 +6,7 @@ export class GetOrderByIdResolver {
   @Authorized()
   @Query(() => Order, { nullable: true })
   async getOrderById(@Arg('id') id: string): Promise<Order | undefined> {
-    const order = await Order.findOne(id, {
+    return Order.findOneOrFail(id, {
       join: {
         alias: 'order',
         leftJoinAndSelect: {
@@ -16,7 +16,5 @@ export class GetOrderByIdResolver {
         },
       },
     });
-
-    return order;
   }
 }
