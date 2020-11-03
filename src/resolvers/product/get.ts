@@ -6,7 +6,7 @@ export class GetProductsResolver {
   @Authorized()
   @Query(() => [Product], { nullable: true })
   async getProducts(): Promise<Product[]> {
-    const products = await Product.find({});
+    const products = await Product.find({ relations: ['owner', 'categories'] });
 
     return products;
   }
