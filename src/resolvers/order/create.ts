@@ -8,6 +8,7 @@ import { Product } from '../../models/product';
 import { User } from '../../models/user';
 import { Context } from '../../types';
 import { Address } from '../../models/address';
+import { expirationQueue } from '../../config/expiration-queue';
 
 @Resolver()
 export class CreateOrderResolver {
@@ -55,6 +56,10 @@ export class CreateOrderResolver {
       orderProducts,
       address,
     }).save();
+
+    const delay = new Date(order.expiresAt).getTime() - new Date().getTime();
+
+    await expirationQueue.add({ orderId: order.id }, { delay });
 
     return order;
   }
