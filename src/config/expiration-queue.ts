@@ -18,7 +18,15 @@ expirationQueue.process(async ({ data: { orderId } }, done) => {
     return done(new Error('OrderId could not found.'));
   }
 
-  const order = await Order.findOne(orderId);
+  const order = await Order.findOne({
+    join: {
+      alias: 'order',
+      leftJoinAndSelect: {
+        orderProducts: 'order.orderProducts',
+        product: 'orderProducts.product',
+      },
+    },
+  });
 
   if (!order) {
     return done();
@@ -26,6 +34,12 @@ expirationQueue.process(async ({ data: { orderId } }, done) => {
 
   if (order.status === OrderStatus.completed) {
     return done();
+  }
+
+  for await (const { product, quantity } of order.orderProducts) {
+    product.stock += quantity;
+
+    await product.save();
   }
 
   order.status = OrderStatus.expired;
