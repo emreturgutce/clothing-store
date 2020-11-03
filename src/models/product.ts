@@ -28,7 +28,7 @@ export class Product extends BaseEntity {
   @Field()
   @Column('float')
   @IsNumber(undefined, { message: 'price must be number' })
-  @Min(0)
+  @Min(0, { message: 'price cannot be less than 0' })
   price!: number;
 
   @Field()
@@ -41,7 +41,7 @@ export class Product extends BaseEntity {
   @Field()
   @Column('int')
   @IsNumber(undefined, { message: 'price must be number' })
-  @Min(0)
+  @Min(0, { message: 'stock cannot be less than 0' })
   stock!: number;
 
   @Field(() => [Category], { nullable: true })
