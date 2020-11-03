@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/bull": "^3.14.4",
     "@types/connect-redis": "^0.0.14",
     "@types/cors": "^2.8.8",
     "@types/dotenv": "^8.2.0",
@@ -46,6 +47,7 @@
   "dependencies": {
     "apollo-server-express": "^2.18.2",
     "bcryptjs": "^2.4.3",
+    "bull": "^3.18.1",
     "class-validator": "^0.12.2",
     "colors": "^1.4.0",
     "connect-redis": "^5.0.0",
