@@ -3,4 +3,5 @@ export enum OrderStatus {
   paymentWaiting = 'PAYMENT_WAITING',
   cancelled = 'CANCELLED',
   completed = 'COMPLETED',
+  expired = 'EXPIRED',
 }
