@@ -26,10 +26,6 @@ export class ChangeOrderStatusResolver {
     @Arg('data') { id, status, token }: ChangeStatusInput,
     @Ctx() { req }: Context,
   ): Promise<Payment | Order | null> {
-    if (status === OrderStatus.created) {
-      return null;
-    }
-
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
     const order = await Order.findOneOrFail(id, {
@@ -46,29 +42,15 @@ export class ChangeOrderStatusResolver {
 
     if (
       order.status === OrderStatus.cancelled ||
-      order.status === OrderStatus.expired
+      order.status === OrderStatus.expired ||
+      order.status === status ||
+      order.user.id !== userId
     ) {
       return null;
     }
 
-    if (order.expiresAt < new Date().getTime()) {
-      order.status = OrderStatus.cancelled;
-
-      await order.save();
-
-      return null;
-    }
-
-    if (status === order.status) {
-      return null;
-    }
-
-    if (order.user.id !== userId) {
-      return null;
-    }
-
     if (status === OrderStatus.completed) {
-      if (order.status === OrderStatus.paymentWaiting) {
+      if (order.status === OrderStatus.awaitingPayment) {
         const charge = await stripe.charges.create({
           currency: 'usd',
           amount:
