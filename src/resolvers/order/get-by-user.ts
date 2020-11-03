@@ -11,7 +11,7 @@ export class GetOrderByUserResolver {
   async getOrderByUser(@Ctx() { req }: Context): Promise<Order[]> {
     const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const order = await Order.find({
+    const orders = await Order.find({
       where: { user: { id } },
       join: {
         alias: 'order',
@@ -24,6 +24,6 @@ export class GetOrderByUserResolver {
       },
     });
 
-    return order;
+    return orders;
   }
 }
