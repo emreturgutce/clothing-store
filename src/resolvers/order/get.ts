@@ -10,6 +10,7 @@ export class GetOrdersResolver {
       join: {
         alias: 'order',
         leftJoinAndSelect: {
+          payment: 'order.payment',
           address: 'order.address',
           orderProducts: 'order.orderProducts',
           product: 'orderProducts.product',
