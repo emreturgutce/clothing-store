@@ -48,7 +48,10 @@ export class ChangeOrderStatusResolver {
       return null;
     }
 
-    if (order.status === OrderStatus.cancelled) {
+    if (
+      order.status === OrderStatus.cancelled ||
+      order.status === OrderStatus.expired
+    ) {
       return null;
     }
 
