@@ -30,6 +30,10 @@ export class CreateOrderResolver {
         where: { id: productId },
       });
 
+      if (quantity > product.stock) {
+        throw new Error('Stock error');
+      }
+
       product.stock -= quantity;
 
       await product.save();
