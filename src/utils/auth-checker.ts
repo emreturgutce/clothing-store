@@ -15,7 +15,11 @@ export const authChecker: AuthChecker<Context> = async ({ context }) => {
 
   const userId = jwt.verify(context.req.session.userId, JWT_SECRET);
 
-  await User.findOneOrFail({ where: { id: userId } });
+  const user = await User.findOne({ where: { id: userId } });
+
+  if (!user) {
+    return false;
+  }
 
   return true;
 };
