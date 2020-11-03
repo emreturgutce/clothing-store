@@ -10,7 +10,7 @@ import { CompleteOrderInput } from '../../input-types/complete-order-input';
 export class CompleteOrderResolver {
   @Authorized()
   @Mutation(() => Order, { nullable: true })
-  async completeOrderStatus(
+  async completeOrder(
     @Arg('data') { id, token }: CompleteOrderInput,
     @Ctx() { req }: Context,
   ): Promise<Order | null> {

@@ -6,10 +6,10 @@ import { JWT_SECRET } from '../../config';
 import { CancelOrderInput } from '../../input-types/cancel-order-input';
 
 @Resolver()
-export class ChangeOrderStatusResolver {
+export class CancelOrderResolver {
   @Authorized()
   @Mutation(() => Order, { nullable: true })
-  async changeOrderStatus(
+  async cancelOrder(
     @Arg('data') { id }: CancelOrderInput,
     @Ctx() { req }: Context,
   ): Promise<Order | null> {
