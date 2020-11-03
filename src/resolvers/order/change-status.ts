@@ -79,10 +79,10 @@ export class ChangeOrderStatusResolver {
         });
 
         const payment = await Payment.create({
-          order,
           stripeId: charge.id,
         }).save();
 
+        order.payment = payment;
         order.status = status;
 
         await order.save();
