@@ -4,8 +4,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
@@ -14,6 +16,7 @@ import { OrderProduct } from './order-product';
 import { ORDER_EXPIRATION_TIME } from '../constants';
 import { OrderStatus } from '../types';
 import { Address } from './address';
+import { Payment } from './payment';
 
 @ObjectType()
 @Entity()
@@ -25,6 +28,11 @@ export class Order extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User)
   user!: User;
+
+  @Field(() => Payment, { nullable: true })
+  @OneToOne(() => Payment)
+  @JoinColumn()
+  payment?: Payment;
 
   @Field()
   @Column({
