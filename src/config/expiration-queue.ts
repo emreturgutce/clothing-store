@@ -13,12 +13,22 @@ const expirationQueue = new Queue<Payload>('order:expiration', {
   },
 });
 
-expirationQueue.process(async ({ data: { orderId } }) => {
+expirationQueue.process(async ({ data: { orderId } }, done) => {
   if (!orderId) {
-    return null;
+    return done(new Error('OrderId could not found.'));
   }
 
-  await Order.update(orderId, { status: OrderStatus.expired });
+  const order = await Order.findOneOrFail(orderId);
+
+  if (order.status === OrderStatus.completed) {
+    return done();
+  }
+
+  order.status = OrderStatus.expired;
+
+  await order.save();
+
+  return done();
 });
 
 export { expirationQueue };
