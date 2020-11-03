@@ -18,7 +18,11 @@ expirationQueue.process(async ({ data: { orderId } }, done) => {
     return done(new Error('OrderId could not found.'));
   }
 
-  const order = await Order.findOneOrFail(orderId);
+  const order = await Order.findOne(orderId);
+
+  if (!order) {
+    return done();
+  }
 
   if (order.status === OrderStatus.completed) {
     return done();
