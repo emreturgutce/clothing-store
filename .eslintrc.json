@@ -30,6 +30,7 @@
     "max-classes-per-file": "off",
     "arrow-body-style": "off",
     "no-continue": "off",
-    "implicit-arrow-linebreak": "off"
+    "implicit-arrow-linebreak": "off",
+    "operator-linebreak": "off"
   }
 }
