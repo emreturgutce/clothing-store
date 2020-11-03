@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
@@ -14,6 +15,7 @@ export class Payment extends BaseEntity {
   id!: string;
 
   @Field()
+  @Column()
   stripeId!: string;
 
   @Field({ nullable: true })
