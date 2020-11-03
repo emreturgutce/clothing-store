@@ -9,6 +9,7 @@ import { User } from '../../models/user';
 import { Context } from '../../types';
 import { Address } from '../../models/address';
 import { expirationQueue } from '../../config/expiration-queue';
+import { calculateDelay } from '../../utils/calculate-delay';
 
 @Resolver()
 export class CreateOrderResolver {
@@ -51,9 +52,10 @@ export class CreateOrderResolver {
       address,
     }).save();
 
-    const delay = new Date(order.expiresAt).getTime() - new Date().getTime();
-
-    await expirationQueue.add({ orderId: order.id }, { delay });
+    await expirationQueue.add(
+      { orderId: order.id },
+      { delay: calculateDelay(order.expiresAt) },
+    );
 
     return order;
   }
