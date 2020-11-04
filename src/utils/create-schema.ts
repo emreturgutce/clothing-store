@@ -13,5 +13,7 @@ export const createSchema = async () => {
         scalar: AvatarScalar,
       },
     ],
+    emitSchemaFile: true,
+    nullableByDefault: true,
   });
 };
