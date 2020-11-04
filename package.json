@@ -30,7 +30,6 @@
     "@types/nodemailer": "^6.4.0",
     "@types/stream-to-promise": "^2.2.1",
     "@types/stripe": "^7.13.25",
-    "@types/supertest": "^2.0.10",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
