@@ -5,7 +5,7 @@ import { AvatarScalar } from '../types/avatar-scalar';
 
 export const createSchema = async () => {
   return buildSchema({
-    resolvers: [path.join(__dirname, '../resolvers/**/*.*')],
+    resolvers: [path.join(__dirname, '../resolvers/*/*.ts')],
     authChecker,
     scalarsMap: [
       {
