@@ -1,3 +1,4 @@
+import 'colors';
 import { createConnection, getConnection } from 'typeorm';
 import { clearDatabase } from '../utils';
 
