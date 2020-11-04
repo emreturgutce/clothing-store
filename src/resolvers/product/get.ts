@@ -1,27 +1,25 @@
 import { Arg, Authorized, Query, Resolver } from 'type-graphql';
+import { PaginationInput } from '../../input-types/pagination-input';
 import { Product } from '../../models/product';
+import { PaginatedProductsResponse } from '../../response-types/paginated-products';
 
 @Resolver()
 export class GetProductsResolver {
   @Authorized()
-  @Query(() => [Product], { nullable: true })
+  @Query(() => PaginatedProductsResponse, { nullable: true })
   async getProducts(
-    @Arg('take') take: number,
-    @Arg('skip') skip: number,
-  ): Promise<Product[]> {
+    @Arg('data') { take, skip }: PaginationInput,
+  ): Promise<PaginatedProductsResponse> {
     const [products, total] = await Product.findAndCount({
       relations: ['owner', 'categories'],
       take,
       skip: skip * take,
     });
 
-    if (take) {
-      console.log({
-        page: Math.ceil((total - take * skip) / take),
-        lastPage: Math.ceil(total / take),
-      });
-    }
-
-    return products;
+    return {
+      items: products,
+      hasMore: (skip + 1) * take < total,
+      total,
+    };
   }
 }
