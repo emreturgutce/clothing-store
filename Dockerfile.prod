@@ -1,0 +1,27 @@
+FROM node:alpine as builder
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN yarn install
+
+COPY . .
+
+EXPOSE 4000
+
+RUN yarn build
+
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN yarn install --production=true
+
+COPY --from=builder /app/dist ./dist
+
+COPY .env .
+
+CMD yarn start
