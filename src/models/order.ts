@@ -26,7 +26,7 @@ export class Order extends BaseEntity {
   id!: string;
 
   @Field(() => User)
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: true })
   user!: User;
 
   @Field(() => Payment, { nullable: true })
@@ -48,7 +48,8 @@ export class Order extends BaseEntity {
 
   @Field(() => [OrderProduct])
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
-    onDelete: 'CASCADE',
+    cascade: true,
+    eager: true,
   })
   orderProducts!: OrderProduct[];
 
