@@ -11,23 +11,9 @@ export class MeResolver {
   async me(@Ctx() { req }: Context): Promise<User | null> {
     const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOne({
+    const user = await User.findOneOrFail({
       where: { id },
-      select: [
-        'id',
-        'email',
-        'detail',
-        'avatar',
-        'confirmed',
-        'createdAt',
-        'updatedAt',
-      ],
-      relations: ['detail'],
     });
-
-    if (!user) {
-      return null;
-    }
 
     return user;
   }
