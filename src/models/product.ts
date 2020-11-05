@@ -57,7 +57,7 @@ export class Product extends BaseEntity {
   viewRate!: number;
 
   @Field(() => [Category], { nullable: true })
-  @ManyToMany(() => Category)
+  @ManyToMany(() => Category, { eager: true })
   @JoinTable()
   categories?: Category[];
 
