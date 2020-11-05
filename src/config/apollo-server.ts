@@ -9,6 +9,8 @@ export const initializeApolloServer = async (app: Express) => {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }) => ({ req, res }),
+    tracing: true,
+    cacheControl: true,
     formatError,
     playground: NODE_ENV === 'development',
   });
