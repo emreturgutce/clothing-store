@@ -62,7 +62,7 @@ export class Product extends BaseEntity {
   categories?: Category[];
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.products)
+  @ManyToOne(() => User)
   owner!: User;
 
   @Field({ nullable: true })
