@@ -4,14 +4,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
-import { Product } from './product';
 
 @ObjectType()
 @Entity()
