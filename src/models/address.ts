@@ -29,7 +29,7 @@ export class Address extends BaseEntity {
   city!: string;
 
   @Field(() => User)
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE', eager: true })
   user!: User;
 
   @Field({ nullable: true })
