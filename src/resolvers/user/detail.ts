@@ -8,20 +8,16 @@ import { DetailInput } from '../../input-types/detail-input';
 @Resolver()
 export class DetailResolver {
   @Authorized()
-  @Mutation(() => User, { nullable: true })
+  @Mutation(() => User)
   async detail(
     @Arg('data', { nullable: true }) { name, phone }: DetailInput,
     @Ctx() { req }: Context,
-  ): Promise<User | null | undefined> {
+  ): Promise<User> {
     const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
     const user = await User.findOneOrFail({
       where: { id },
     });
-
-    if (!user) {
-      return null;
-    }
 
     if (name) {
       user.detail!.name = name;
