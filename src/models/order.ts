@@ -30,7 +30,7 @@ export class Order extends BaseEntity {
   user!: User;
 
   @Field(() => Payment, { nullable: true })
-  @OneToOne(() => Payment)
+  @OneToOne(() => Payment, { cascade: true, nullable: true, eager: true })
   @JoinColumn()
   payment?: Payment;
 
