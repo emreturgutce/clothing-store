@@ -51,7 +51,7 @@ export class Product extends BaseEntity {
   count!: number;
 
   @Field(() => [Int], { nullable: true })
-  @Column({ nullable: true })
+  @Column('simple-array', { nullable: true })
   rate!: number[];
 
   @Field(() => Float, { nullable: true })
