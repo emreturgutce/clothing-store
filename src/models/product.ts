@@ -44,6 +44,12 @@ export class Product extends BaseEntity {
   @Min(0, { message: 'stock cannot be less than 0' })
   stock!: number;
 
+  @Field({ defaultValue: 0 })
+  @Column('int', { default: 0 })
+  @IsNumber()
+  @Min(0, { message: 'count cannot be less than 0' })
+  count!: number;
+
   @Field(() => [Category], { nullable: true })
   @ManyToMany(() => Category)
   @JoinTable()
