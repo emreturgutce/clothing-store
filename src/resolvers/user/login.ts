@@ -13,11 +13,7 @@ export class LoginUserResolver {
     @Arg('data') { email, password }: LoginInput,
     @Ctx() ctx: Context,
   ): Promise<User | null> {
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      return null;
-    }
+    const user = await User.findOneOrFail({ where: { email } });
 
     const isValid = await bcrypt.compare(password, user.password);
 
