@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { IsNumber, Length, Min } from 'class-validator';
+import { IsNumber, Length, Max, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
 
@@ -49,6 +49,12 @@ export class Product extends BaseEntity {
   @IsNumber()
   @Min(0, { message: 'count cannot be less than 0' })
   count!: number;
+
+  @Field({ defaultValue: 0 })
+  @Column('int', { default: 0 })
+  @Min(0, { message: 'viewRate cannot be less than 0' })
+  @Max(5, { message: 'viewRate cannot be more than 5' })
+  viewRate!: number;
 
   @Field(() => [Category], { nullable: true })
   @ManyToMany(() => Category)
