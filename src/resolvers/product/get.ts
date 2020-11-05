@@ -11,7 +11,6 @@ export class GetProductsResolver {
     @Arg('data') { take, skip }: PaginationInput,
   ): Promise<PaginatedProductsResponse> {
     const [products, total] = await Product.findAndCount({
-      relations: ['owner', 'categories'],
       take,
       skip: skip * take,
     });

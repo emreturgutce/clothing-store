@@ -16,15 +16,11 @@ export class AddProductResolver {
     { name, price, description, stock, categoryNames }: ProductInput,
     @Ctx() { req }: Context,
   ): Promise<Product | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
-    const owner = await User.findOne({
-      where: { id: userId },
-      relations: ['detail'],
-    });
+    const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    if (!owner) {
-      return null;
-    }
+    const owner = await User.findOneOrFail({
+      where: { id },
+    });
 
     const categories = await Category.findByNames(categoryNames);
 

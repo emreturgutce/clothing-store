@@ -35,6 +35,7 @@ export class UpdateProductResolver {
     }
 
     const result = await Product.update({ id }, { ...updateOptions });
+
     if (!result.affected) {
       return false;
     }

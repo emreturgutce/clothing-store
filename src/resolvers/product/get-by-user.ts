@@ -13,7 +13,6 @@ export class GetProductByUserResolver {
 
     const product = await Product.find({
       where: { owner: { id } },
-      relations: ['owner', 'categories'],
     });
 
     return product;
