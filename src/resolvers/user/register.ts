@@ -22,13 +22,15 @@ export class RegisterUserResolver {
   ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    const detail = UserDetail.create({
+      name,
+      phone,
+    });
+
     const user = await User.create({
       email,
       password: hashedPassword,
-      detail: await UserDetail.create({
-        name,
-        phone,
-      }).save(),
+      detail,
     }).save();
 
     ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
