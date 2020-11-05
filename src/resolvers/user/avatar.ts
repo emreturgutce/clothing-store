@@ -16,20 +16,13 @@ export class AvatarResolver {
     @Ctx() { req }: Context,
   ): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+      const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-      const user = await User.findOne({
-        where: { id: userId },
-        relations: ['detail'],
+      const user = await User.findOneOrFail({
+        where: { id },
       });
 
-      if (!user) {
-        return false;
-      }
-
-      const { createReadStream } = file;
-
-      const readStream = createReadStream();
+      const readStream = file.createReadStream();
 
       streamToPromise(readStream)
         .then(async (data) => {

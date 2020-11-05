@@ -10,11 +10,7 @@ export class ForgotPasswordResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async forgotPassword(@Arg('email') email: string): Promise<boolean> {
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      return false;
-    }
+    const user = await User.findOneOrFail({ where: { email } });
 
     const token = uuid();
 
