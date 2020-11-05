@@ -15,14 +15,8 @@ export class DetailResolver {
   ): Promise<User | null | undefined> {
     const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    if (!id) {
-      return null;
-    }
-
-    const user = await User.findOne({
+    const user = await User.findOneOrFail({
       where: { id },
-      select: ['id', 'email', 'detail'],
-      relations: ['detail'],
     });
 
     if (!user) {
