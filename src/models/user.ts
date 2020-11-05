@@ -38,7 +38,7 @@ export class User extends BaseEntity {
   avatar?: Buffer;
 
   @Field()
-  @OneToOne(() => UserDetail, { onDelete: 'CASCADE' })
+  @OneToOne(() => UserDetail, { onDelete: 'CASCADE', eager: true })
   @JoinColumn()
   detail!: UserDetail;
 
