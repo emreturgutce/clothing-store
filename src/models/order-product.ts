@@ -25,7 +25,7 @@ export class OrderProduct extends BaseEntity {
   order!: Order;
 
   @Field(() => Product)
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, { cascade: true, eager: true })
   product!: Product;
 
   @Field()
