@@ -19,20 +19,11 @@ export class GetAddressByIdResolver {
 
     const userId = jwt.verify(req.session.userId, JWT_SECRET);
 
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOneOrFail({ where: { id: userId } });
 
-    if (!user) {
-      return null;
-    }
-
-    const address = await Address.findOne({
+    const address = await Address.findOneOrFail({
       where: { id, user },
-      relations: ['user'],
     });
-
-    if (!address) {
-      return null;
-    }
 
     return address;
   }

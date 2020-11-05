@@ -20,11 +20,7 @@ export class AddAddressResolver {
 
     const userId = jwt.verify(req.session.userId, JWT_SECRET);
 
-    const user = await User.findOne({ where: { id: userId } });
-
-    if (!user) {
-      return null;
-    }
+    const user = await User.findOneOrFail({ where: { id: userId } });
 
     const address = await Address.create({
       addressLines,

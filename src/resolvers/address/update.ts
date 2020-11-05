@@ -21,11 +21,7 @@ export class UpdateAddressResolver {
 
     const userId = jwt.verify(req.session.userId, JWT_SECRET);
 
-    const user = await User.findOne({ where: { id: userId } });
-
-    if (!user) {
-      return false;
-    }
+    const user = await User.findOneOrFail({ where: { id: userId } });
 
     const result = await Address.update(
       {

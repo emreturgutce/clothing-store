@@ -21,10 +21,6 @@ export class DelAddressResolver {
 
     const user = await User.findOne({ where: { id: userId } });
 
-    if (!user) {
-      return false;
-    }
-
     const result = await Address.delete({
       id,
       user,

@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
+import { Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Address } from '../../models/address';
 import { Context } from '../../types';
@@ -16,23 +16,14 @@ export class GetAddressByUserResolver {
 
     const userId = jwt.verify(req.session.userId, JWT_SECRET);
 
-    const user = await User.findOne({
+    const user = await User.findOneOrFail({
       where: { id: userId },
     });
 
-    if (!user) {
-      return null;
-    }
-
-    const address = await Address.find({
+    const addresses = await Address.find({
       where: { user },
-      relations: ['user'],
     });
 
-    if (!address) {
-      return null;
-    }
-
-    return address;
+    return addresses;
   }
 }
