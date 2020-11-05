@@ -38,13 +38,9 @@ export class User extends BaseEntity {
   avatar?: Buffer;
 
   @Field()
-  @OneToOne(() => UserDetail, { onDelete: 'CASCADE', eager: true })
+  @OneToOne(() => UserDetail, { cascade: true, eager: true })
   @JoinColumn()
   detail!: UserDetail;
-
-  @Field(() => [Product])
-  @OneToMany(() => Product, (photo) => photo.owner, { onDelete: 'CASCADE' })
-  products!: Product[];
 
   @Field({ nullable: true })
   @CreateDateColumn({
