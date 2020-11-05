@@ -26,7 +26,10 @@ export class Order extends BaseEntity {
   id!: string;
 
   @Field(() => User)
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User, (user) => user.orders, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   user!: User;
 
   @Field(() => Payment, { nullable: true })
