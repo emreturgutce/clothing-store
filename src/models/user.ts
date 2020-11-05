@@ -4,12 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
+import { Order } from './order';
 
 @ObjectType()
 @Entity()
@@ -39,6 +41,13 @@ export class User extends BaseEntity {
   @OneToOne(() => UserDetail, { cascade: true, eager: true })
   @JoinColumn()
   detail!: UserDetail;
+
+  @Field(() => [Order], { nullable: true })
+  @OneToMany(() => Order, (order) => order.user, {
+    cascade: true,
+    nullable: true,
+  })
+  orders!: Order[];
 
   @Field({ nullable: true })
   @CreateDateColumn({
