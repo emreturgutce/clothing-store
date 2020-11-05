@@ -68,7 +68,7 @@ type Mutation {
   addProduct(data: ProductInput): Product
   avatar(avatar: Upload): Boolean
   cancelOrder(data: CancelOrderInput): Order
-  changePassword(data: ChangePasswordInput): User
+  changePassword(data: ChangePasswordInput): Boolean
   completeOrder(data: CompleteOrderInput): Order
   confirmEmail(token: String): Boolean
   createOrder(orderProducts: OrderInputs): Order
@@ -141,13 +141,16 @@ type Payment {
 }
 
 type Product {
+  averageRatings: Float
   categories: [Category!]
+  count: Float
   createdAt: DateTime
   description: String
   id: ID
   name: String
   owner: User
   price: Float
+  rate: [Int!]
   stock: Float
   updatedAt: DateTime
 }
@@ -193,7 +196,7 @@ type User {
   detail: UserDetail
   email: String
   id: ID
-  products: [Product]
+  orders: [Order!]
   updatedAt: DateTime
 }
 
