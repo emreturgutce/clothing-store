@@ -8,7 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, Float, ID, Int, ObjectType } from 'type-graphql';
 import { IsNumber, Length, Max, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
@@ -50,11 +50,22 @@ export class Product extends BaseEntity {
   @Min(0, { message: 'count cannot be less than 0' })
   count!: number;
 
-  @Field({ defaultValue: 0 })
-  @Column('int', { default: 0 })
-  @Min(0, { message: 'viewRate cannot be less than 0' })
-  @Max(5, { message: 'viewRate cannot be more than 5' })
-  viewRate!: number;
+  @Field(() => [Int], { nullable: true })
+  @Column({ nullable: true })
+  rate!: number[];
+
+  @Field(() => Float, { nullable: true })
+  get averageRatings() {
+    const ratingsCount = this.rate.length;
+
+    if (ratingsCount === 0) {
+      return null;
+    }
+
+    const ratingsSum = this.rate.reduce((a, b) => a + b, 0);
+
+    return ratingsSum / ratingsCount;
+  }
 
   @Field(() => [Category], { nullable: true })
   @ManyToMany(() => Category, { eager: true })
