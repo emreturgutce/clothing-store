@@ -16,17 +16,7 @@ export class CompleteOrderResolver {
   ): Promise<Order | null> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const order = await Order.findOneOrFail(id, {
-      join: {
-        alias: 'order',
-        leftJoinAndSelect: {
-          user: 'order.user',
-          address: 'order.address',
-          orderProducts: 'order.orderProducts',
-          product: 'orderProducts.product',
-        },
-      },
-    });
+    const order = await Order.findOneOrFail(id);
 
     if (
       order.status !== OrderStatus.awaitingPayment ||
@@ -44,9 +34,9 @@ export class CompleteOrderResolver {
       source: token,
     });
 
-    const payment = await Payment.create({
+    const payment = Payment.create({
       stripeId: charge.id,
-    }).save();
+    });
 
     order.payment = payment;
     order.status = OrderStatus.completed;

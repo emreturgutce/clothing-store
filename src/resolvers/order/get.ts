@@ -6,17 +6,7 @@ export class GetOrdersResolver {
   @Authorized()
   @Query(() => [Order], { nullable: true })
   async getOrders(): Promise<Order[]> {
-    const orders = await Order.find({
-      join: {
-        alias: 'order',
-        leftJoinAndSelect: {
-          payment: 'order.payment',
-          address: 'order.address',
-          orderProducts: 'order.orderProducts',
-          product: 'orderProducts.product',
-        },
-      },
-    });
+    const orders = await Order.find({});
 
     return orders;
   }

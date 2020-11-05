@@ -15,17 +15,7 @@ export class CancelOrderResolver {
   ): Promise<Order | null> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const order = await Order.findOneOrFail(id, {
-      join: {
-        alias: 'order',
-        leftJoinAndSelect: {
-          user: 'order.user',
-          address: 'order.address',
-          orderProducts: 'order.orderProducts',
-          product: 'orderProducts.product',
-        },
-      },
-    });
+    const order = await Order.findOneOrFail(id);
 
     if (
       order.status !== OrderStatus.awaitingPayment ||
@@ -36,8 +26,6 @@ export class CancelOrderResolver {
 
     for await (const { product, quantity } of order.orderProducts) {
       product.stock += quantity;
-
-      await product.save();
     }
 
     order.status = OrderStatus.cancelled;

@@ -13,15 +13,6 @@ export class GetOrderByUserResolver {
 
     const orders = await Order.find({
       where: { user: { id } },
-      join: {
-        alias: 'order',
-        leftJoinAndSelect: {
-          address: 'order.address',
-          user: 'order.user',
-          orderProducts: 'order.orderProducts',
-          product: 'orderProducts.product',
-        },
-      },
     });
 
     return orders;

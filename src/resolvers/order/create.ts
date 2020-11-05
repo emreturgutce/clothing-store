@@ -36,12 +36,10 @@ export class CreateOrderResolver {
 
       product.stock -= quantity;
 
-      await product.save();
-
-      const orderProduct = await OrderProduct.create({
+      const orderProduct = OrderProduct.create({
         product,
         quantity,
-      }).save();
+      });
 
       orderProducts.push(orderProduct);
     }
