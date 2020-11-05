@@ -4,6 +4,8 @@ import { createConnection } from 'typeorm';
 import { app } from './app';
 import { initializeApolloServer, PORT } from './config';
 
+console.clear();
+
 createConnection()
   .then(() => {
     console.log(`🐘 Connected to Postgres DB`.bgBlue);
