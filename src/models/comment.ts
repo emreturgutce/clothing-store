@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from './user';
+import { Product } from './product';
 
 @ObjectType()
 @Entity()
@@ -23,6 +24,12 @@ export class Comment extends BaseEntity {
   @Field({ defaultValue: 0 })
   @Column('int', { default: 0 })
   rate!: number;
+
+  @Field(() => Product)
+  @ManyToOne(() => Product, (product) => product.comments, {
+    onDelete: 'CASCADE',
+  })
+  product!: Product;
 
   @Field(() => User)
   @ManyToOne(() => User, {

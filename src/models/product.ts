@@ -6,12 +6,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, Float, ID, Int, ObjectType } from 'type-graphql';
 import { IsNumber, Length, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
+import { Comment } from './comment';
 
 @ObjectType()
 @Entity()
@@ -79,6 +81,13 @@ export class Product extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, { eager: true })
   owner!: User;
+
+  @Field(() => [Comment], { nullable: true })
+  @OneToMany(() => Comment, (comment) => comment.product, {
+    nullable: true,
+    cascade: true,
+  })
+  comments!: Comment[];
 
   @Field({ nullable: true })
   @CreateDateColumn({
