@@ -1,4 +1,5 @@
 import 'colors';
+import { ExecutionResult } from 'graphql';
 import { createConnection, getConnection } from 'typeorm';
 import { registerMutation } from '../mutations';
 import { clearDatabase, gCall } from '../utils';
@@ -13,7 +14,18 @@ type User = {
 declare global {
   namespace NodeJS {
     interface Global {
-      signup(user: User): Promise<any>;
+      signup(
+        user: User,
+      ): Promise<
+        ExecutionResult<
+          {
+            [key: string]: any;
+          },
+          {
+            [key: string]: any;
+          }
+        >
+      >;
     }
   }
 }
