@@ -1,6 +1,24 @@
 import 'colors';
 import { createConnection, getConnection } from 'typeorm';
-import { clearDatabase } from '../utils';
+import { registerMutation } from '../mutations';
+import { clearDatabase, gCall } from '../utils';
+
+type User = {
+  name?: string;
+  phone?: string;
+  email: string;
+  password: string;
+};
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      signup(user: User): Promise<any>;
+    }
+  }
+}
+
+global.signup = (user: User) => gCall(registerMutation, { data: user });
 
 beforeAll(async () => {
   await createConnection();
