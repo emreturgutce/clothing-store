@@ -1,30 +1,24 @@
 import {
-  BaseEntity,
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 import { User } from './user';
 import { OrderProduct } from './order-product';
 import { ORDER_EXPIRATION_TIME } from '../constants';
 import { OrderStatus } from '../types';
 import { Address } from './address';
 import { Payment } from './payment';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class Order extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Order extends ExternalEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.orders, {
     eager: true,
@@ -59,18 +53,6 @@ export class Order extends BaseEntity {
   @Field(() => Address, { nullable: true })
   @ManyToOne(() => Address)
   address!: Address;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 
   @BeforeInsert()
   private generateExpiresAt() {

@@ -1,27 +1,21 @@
 import {
-  BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, Float, ID, Int, ObjectType } from 'type-graphql';
+import { Field, Float, Int, ObjectType } from 'type-graphql';
 import { IsNumber, Length, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
 import { Comment } from './comment';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class Product extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Product extends ExternalEntity {
   @Field()
   @Column({ unique: true })
   @Length(2, 255, { message: 'name must be between 2 and 255 characters' })
@@ -88,16 +82,4 @@ export class Product extends BaseEntity {
     cascade: true,
   })
   comments!: Comment[];
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 }

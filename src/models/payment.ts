@@ -1,32 +1,11 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Column, Entity } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class Payment extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Payment extends ExternalEntity {
   @Field()
   @Column()
   stripeId!: string;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 }

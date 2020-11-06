@@ -1,25 +1,13 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
 import { IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
 import { Order } from './order';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class User extends ExternalEntity {
   @Field()
   @Column({ unique: true })
   @IsEmail(undefined, { message: 'email must be valid' })
@@ -52,16 +40,4 @@ export class User extends BaseEntity {
     nullable: true,
   })
   orders!: Order[];
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 }

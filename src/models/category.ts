@@ -1,36 +1,15 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Column, Entity } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
 import { Length } from 'class-validator';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class Category extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Category extends ExternalEntity {
   @Field()
   @Column({ unique: true })
   @Length(2, 255, { message: 'name must be between 2 and 255 characters' })
   name!: string;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 
   static async findByNames(names: string[] = []): Promise<Category[]> {
     const categories: Category[] = [];

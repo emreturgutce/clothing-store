@@ -1,20 +1,11 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Column, Entity } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
 import { IsPhoneNumber, Length } from 'class-validator';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class UserDetail extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class UserDetail extends ExternalEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   @Length(2, 255, {
@@ -26,16 +17,4 @@ export class UserDetail extends BaseEntity {
   @Column({ nullable: true, unique: true })
   @IsPhoneNumber('TR', { message: 'phone number must be valid' })
   phone?: string;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 }

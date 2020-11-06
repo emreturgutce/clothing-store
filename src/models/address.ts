@@ -1,21 +1,11 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
 import { User } from './user';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class Address extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Address extends ExternalEntity {
   @Field()
   @Column('text')
   addressLines!: string;
@@ -31,16 +21,4 @@ export class Address extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, { onDelete: 'CASCADE', eager: true })
   user!: User;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  createdAt!: Date;
-
-  @Field({ nullable: true })
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  updatedAt!: Date;
 }
