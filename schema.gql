@@ -42,6 +42,15 @@ input ChangePasswordInput {
   token: String
 }
 
+type Comment {
+  content: String
+  createdAt: DateTime
+  id: ID
+  rate: Float
+  updatedAt: DateTime
+  user: User
+}
+
 input CompleteOrderInput {
   id: String
   token: String
