@@ -34,6 +34,10 @@ export class CompleteOrderResolver {
       source: token,
     });
 
+    for (const { product, quantity } of order.orderProducts) {
+      product.count += quantity;
+    }
+
     const payment = Payment.create({
       stripeId: charge.id,
     });
