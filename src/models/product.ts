@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, Float, ID, Int, ObjectType } from 'type-graphql';
-import { IsNumber, Length, Max, Min } from 'class-validator';
+import { IsNumber, Length, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
 
@@ -55,7 +55,11 @@ export class Product extends BaseEntity {
   rate!: number[];
 
   @Field(() => Float, { nullable: true })
-  get averageRatings() {
+  get averageRate() {
+    if (!this.rate) {
+      return null;
+    }
+
     const ratingsCount = this.rate.length;
 
     if (ratingsCount === 0) {
