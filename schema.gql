@@ -67,6 +67,12 @@ input DetailInput {
   phone: String
 }
 
+type ExternalEntity {
+  createdAt: DateTime
+  id: ID
+  updatedAt: DateTime
+}
+
 input LoginInput {
   email: String
   password: String
