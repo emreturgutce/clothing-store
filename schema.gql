@@ -46,6 +46,7 @@ type Comment {
   content: String
   createdAt: DateTime
   id: ID
+  product: Product
   rate: Float
   updatedAt: DateTime
   user: User
@@ -78,6 +79,7 @@ type Mutation {
   avatar(avatar: Upload): Boolean
   cancelOrder(data: CancelOrderInput): Order
   changePassword(data: ChangePasswordInput): Boolean
+  commentProduct(content: String, productId: String): Product
   completeOrder(data: CompleteOrderInput): Order
   confirmEmail(token: String): Boolean
   createOrder(orderProducts: OrderInputs): Order
@@ -88,6 +90,7 @@ type Mutation {
   detail(data: DetailInput): User
   forgotPassword(email: String): Boolean
   login(data: LoginInput): User
+  rateProduct(productId: String, rate: Float): Product
   register(data: RegisterInput): User
   updateAddress(data: OptionalAddressInput, id: String): Boolean
   updateCategory(data: CategoryInput, id: String): Boolean
@@ -150,8 +153,9 @@ type Payment {
 }
 
 type Product {
-  averageRatings: Float
+  averageRate: Float
   categories: [Category!]
+  comments: [Comment!]
   count: Float
   createdAt: DateTime
   description: String
