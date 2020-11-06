@@ -1,12 +1,13 @@
-import { BaseEntity, Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { Min } from 'class-validator';
 import { Order } from './order';
 import { Product } from './product';
+import { ExternalEntity } from './base-entity';
 
 @ObjectType()
 @Entity()
-export class OrderProduct extends BaseEntity {
+export class OrderProduct extends ExternalEntity {
   @Field(() => Order)
   @ManyToOne(() => Order, (order) => order.orderProducts, {
     onDelete: 'CASCADE',
