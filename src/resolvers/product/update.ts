@@ -4,10 +4,10 @@ import { ProductInput } from '../../input-types/product-input';
 import { Product } from '../../models/product';
 
 interface UpdateOptions {
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
+  name?: string;
+  description?: string;
+  price?: number;
+  stock?: number;
   categories?: Category[];
 }
 
@@ -34,11 +34,29 @@ export class UpdateProductResolver {
       updateOptions.categories = categories;
     }
 
-    const result = await Product.update({ id }, { ...updateOptions });
+    const product = await Product.findOneOrFail(id);
 
-    if (!result.affected) {
-      return false;
+    if (name) {
+      product.name = name;
     }
+
+    if (description) {
+      product.description = description;
+    }
+
+    if (price) {
+      product.price = price;
+    }
+
+    if (stock) {
+      product.stock = stock;
+    }
+
+    if (updateOptions.categories) {
+      product.categories = updateOptions.categories;
+    }
+
+    await product.save();
 
     return true;
   }
