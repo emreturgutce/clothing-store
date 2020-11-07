@@ -72,3 +72,4 @@ export const {
 export * from './redis';
 export * from './stripe';
 export * from './apollo-server';
+export * from './session';
