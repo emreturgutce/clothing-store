@@ -5,6 +5,8 @@ import { UserDetail } from './user-detail';
 import { Order } from './order';
 import { ExternalEntity } from './base-entity';
 import { UserRole } from './user-role';
+import { Product } from './product';
+import { OrderStatus } from '../types';
 
 @ObjectType()
 @Entity()
@@ -50,4 +52,16 @@ export class User extends ExternalEntity {
     nullable: true,
   })
   orders!: Order[];
+
+  checkIfUserBoughtTheProduct(product: Product): Boolean {
+    for (const { orderProducts, status } of this.orders) {
+      if (status === OrderStatus.completed) {
+        for (const { product: p } of orderProducts) {
+          return p.id === product.id;
+        }
+      }
+    }
+
+    return false;
+  }
 }
