@@ -32,6 +32,7 @@ export class User extends ExternalEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn()
   role!: UserRole;
 
   @Field()
