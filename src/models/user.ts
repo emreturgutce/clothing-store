@@ -4,6 +4,7 @@ import { IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
 import { Order } from './order';
 import { ExternalEntity } from './base-entity';
+import { UserRole } from './user-role';
 
 @ObjectType()
 @Entity()
@@ -24,6 +25,14 @@ export class User extends ExternalEntity {
   @Field({ nullable: true })
   @Column('bytea', { nullable: true })
   avatar?: Buffer;
+
+  @Field()
+  @OneToOne(() => UserRole, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  role!: UserRole;
 
   @Field()
   @OneToOne(() => UserDetail, {
