@@ -3,7 +3,7 @@ import { Order } from '../../models/order';
 
 @Resolver()
 export class GetOrdersResolver {
-  @Authorized()
+  @Authorized('ADMIN')
   @Query(() => [Order], { nullable: true })
   async getOrders(): Promise<Order[]> {
     const orders = await Order.find({});
