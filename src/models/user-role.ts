@@ -1,7 +1,7 @@
 import { Column, Entity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { ExternalEntity } from './base-entity';
-import { UserRoles } from '../types/user-roles';
+import { UserRoles } from '../types';
 
 @ObjectType()
 @Entity()
