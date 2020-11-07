@@ -7,19 +7,6 @@ import { User } from '../../models/user';
 import { Context, OrderStatus } from '../../types';
 import { Comment } from '../../models/comment';
 
-const checkIfUserBoughtTheProduct = (orders: Order[], product: Product) => {
-  for (const { orderProducts, status } of orders) {
-    if (status === OrderStatus.completed) {
-      for (const { product: p } of orderProducts) {
-        if (p.id === product.id) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-};
-
 @Resolver()
 export class CommentProductResolver {
   @Authorized()
@@ -38,13 +25,7 @@ export class CommentProductResolver {
       relations: ['comments'],
     });
 
-    const orders = await Order.find({
-      where: {
-        user,
-      },
-    });
-
-    const val = checkIfUserBoughtTheProduct(orders, product);
+    const val = user.checkIfUserBoughtTheProduct(product);
 
     if (!val) {
       return null;
