@@ -4,7 +4,7 @@ import { JWT_SECRET } from '../config';
 import { User } from '../models/user';
 import { Context } from '../types';
 
-export const authChecker: AuthChecker<Context> = async ({ context }) => {
+export const authChecker: AuthChecker<Context> = async ({ context }, roles) => {
   if (!context.req.session) {
     return false;
   }
@@ -19,6 +19,10 @@ export const authChecker: AuthChecker<Context> = async ({ context }) => {
 
   if (!user) {
     return false;
+  }
+
+  if (roles.length > 0) {
+    return roles.includes(user.role.name);
   }
 
   return true;
