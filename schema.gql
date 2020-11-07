@@ -216,6 +216,7 @@ type User {
   email: String
   id: ID
   orders: [Order!]
+  role: UserRole
   updatedAt: DateTime
 }
 
@@ -224,5 +225,12 @@ type UserDetail {
   id: ID
   name: String
   phone: String
+  updatedAt: DateTime
+}
+
+type UserRole {
+  createdAt: DateTime
+  id: ID
+  name: String
   updatedAt: DateTime
 }
