@@ -1,7 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
-import { Category } from '../../models/category';
-import { ProductInput } from '../../input-types/product-input';
 import { Product } from '../../models/product';
 import { Context, UserRoles } from '../../types';
 import { JWT_SECRET } from '../../config';
