@@ -60,15 +60,30 @@ export class User extends ExternalEntity {
   })
   orders!: Order[];
 
-  checkIfUserBoughtTheProduct(product: Product): Boolean {
+  checkIfUserBoughtTheProduct(product: Product): boolean {
     for (const { orderProducts, status } of this.orders) {
       if (status === OrderStatus.completed) {
         for (const { product: p } of orderProducts) {
-          return p.id === product.id;
+          if (p.id === product.id) {
+            return true;
+          }
         }
       }
     }
 
+    return false;
+  }
+
+  checkIfUserIsOwner(productId: string): boolean {
+    if (!this.products) {
+      return false;
+    }
+
+    for (const { id } of this.products) {
+      if (id === productId) {
+        return true;
+      }
+    }
     return false;
   }
 }
