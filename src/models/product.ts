@@ -85,7 +85,7 @@ export class Product extends ExternalEntity {
 
   static async updateFromUser(
     productId: string,
-    productUpdateInput: ProductUpdateInput,
+    { name, description, price, stock, categoryNames }: ProductUpdateInput,
     user?: User,
   ): Promise<boolean> {
     return !!(
@@ -94,8 +94,33 @@ export class Product extends ExternalEntity {
           id: productId,
           owner: user,
         },
-        productUpdateInput,
+        {
+          // eslint-disable-next-line no-use-before-define
+          ...(await helperFunc({
+            name,
+            description,
+            price,
+            stock,
+            categoryNames,
+          })),
+        },
       )
     ).affected;
   }
 }
+
+const helperFunc = async (vals: ProductUpdateInput) => {
+  const obj: { [k: string]: unknown } = {};
+
+  for await (const [key, value] of Object.entries(vals)) {
+    if (key === 'categoryNames') {
+      if (value?.length > 0) {
+        obj.categories = await Category.findByNames(value);
+      }
+    } else if (value) {
+      obj[key] = value;
+    }
+  }
+
+  return obj;
+};
