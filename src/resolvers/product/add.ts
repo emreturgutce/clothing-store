@@ -4,12 +4,12 @@ import { ProductInput } from '../../input-types/product-input';
 import { Category } from '../../models/category';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context } from '../../types';
+import { Context, UserRoles } from '../../types';
 import { JWT_SECRET } from '../../config';
 
 @Resolver()
 export class AddProductResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Mutation(() => Product, { nullable: true })
   async addProduct(
     @Arg('data')
@@ -31,6 +31,7 @@ export class AddProductResolver {
       stock,
       owner,
       categories,
+      count: 0,
     }).save();
 
     return product;
