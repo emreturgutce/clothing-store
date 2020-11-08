@@ -42,7 +42,6 @@ export class Product extends ExternalEntity {
 
   @Field({ defaultValue: 0 })
   @Column('int', { default: 0 })
-  @IsNumber()
   @Min(0, { message: 'count cannot be less than 0' })
   count!: number;
 
@@ -73,7 +72,7 @@ export class Product extends ExternalEntity {
   categories?: Category[];
 
   @Field(() => User)
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' })
   owner!: User;
 
   @Field(() => [Comment], { nullable: true })
