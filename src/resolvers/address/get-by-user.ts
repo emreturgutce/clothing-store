@@ -1,29 +1,38 @@
-import { Authorized, Ctx, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Address } from '../../models/address';
-import { Context } from '../../types';
+import { Context, UserRoles } from '../../types';
 import { JWT_SECRET } from '../../config';
 import { User } from '../../models/user';
 
 @Resolver()
 export class GetAddressByUserResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Query(() => [Address], { nullable: true })
-  async getAddressByUser(@Ctx() { req }: Context): Promise<Address[] | null> {
-    if (!req.session) {
-      return null;
-    }
-
-    const userId = jwt.verify(req.session.userId, JWT_SECRET);
+  async getAddressByUser(
+    @Ctx() { req }: Context,
+    @Arg('userId') userIdParam?: string,
+  ): Promise<Address[] | null> {
+    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
     const user = await User.findOneOrFail({
       where: { id: userId },
     });
 
-    const addresses = await Address.find({
-      where: { user },
-    });
+    if (user.role.name === UserRoles.user) {
+      return Address.find({
+        where: { user },
+      });
+    }
 
-    return addresses;
+    if (user.role.name === UserRoles.admin) {
+      return Address.find({
+        where: {
+          user: await User.findOneOrFail({ where: { id: userIdParam } }),
+        },
+      });
+    }
+
+    return null;
   }
 }
