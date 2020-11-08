@@ -12,6 +12,7 @@ import { Category } from './category';
 import { User } from './user';
 import { Comment } from './comment';
 import { ExternalEntity } from './base-entity';
+import { ProductUpdateInput } from '../input-types/product-update-input';
 
 @ObjectType()
 @Entity()
@@ -81,4 +82,20 @@ export class Product extends ExternalEntity {
     cascade: true,
   })
   comments!: Comment[];
+
+  static async updateFromUser(
+    productId: string,
+    productUpdateInput: ProductUpdateInput,
+    user?: User,
+  ): Promise<boolean> {
+    return !!(
+      await this.update(
+        {
+          id: productId,
+          owner: user,
+        },
+        productUpdateInput,
+      )
+    ).affected;
+  }
 }
