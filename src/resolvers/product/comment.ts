@@ -1,15 +1,14 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config';
-import { Order } from '../../models/order';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context, OrderStatus } from '../../types';
+import { Context, UserRoles } from '../../types';
 import { Comment } from '../../models/comment';
 
 @Resolver()
 export class CommentProductResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Mutation(() => Product, { nullable: true })
   async commentProduct(
     @Arg('productId') productId: string,
