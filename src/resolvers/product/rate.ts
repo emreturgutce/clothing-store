@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context } from '../../types';
+import { Context, UserRoles } from '../../types';
 
 @Resolver()
 export class RateProductResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Mutation(() => Product, { nullable: true })
   async rateProduct(
     @Arg('productId') productId: string,
