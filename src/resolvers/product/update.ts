@@ -6,6 +6,7 @@ import { Product } from '../../models/product';
 import { Context, UserRoles } from '../../types';
 import { JWT_SECRET } from '../../config';
 import { User } from '../../models/user';
+import { ProductUpdateInput } from '../../input-types/product-update-input';
 
 @Resolver()
 export class UpdateProductResolver {
@@ -13,13 +14,15 @@ export class UpdateProductResolver {
   @Mutation(() => Boolean)
   async updateProduct(
     @Arg('productId') productId: string,
-    @Arg('data')
-    { name, description, price, stock, categoryNames }: ProductInput,
+    @Arg('productUpdateInput') productUpdateInput: ProductUpdateInput,
     @Ctx() { req }: Context,
   ): Promise<boolean> {
     const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+    const user = await User.findOneOrFail({
+      where: { id: userId },
+      relations: ['products'],
+    });
 
     if (user.role.name === UserRoles.user) {
       const val = user.checkIfUserIsOwner(productId);
@@ -28,59 +31,11 @@ export class UpdateProductResolver {
         return false;
       }
 
-      const product = await Product.findOneOrFail(productId);
-
-      if (name) {
-        product.name = name;
-      }
-
-      if (description) {
-        product.description = description;
-      }
-
-      if (price) {
-        product.price = price;
-      }
-
-      if (stock) {
-        product.stock = stock;
-      }
-
-      if (categoryNames) {
-        product.categories = await Category.findByNames(categoryNames);
-      }
-
-      await product.save();
-
-      return true;
+      return Product.updateFromUser(productId, productUpdateInput, user);
     }
 
     if (user.role.name === UserRoles.admin) {
-      const product = await Product.findOneOrFail(productId);
-
-      if (name) {
-        product.name = name;
-      }
-
-      if (description) {
-        product.description = description;
-      }
-
-      if (price) {
-        product.price = price;
-      }
-
-      if (stock) {
-        product.stock = stock;
-      }
-
-      if (categoryNames) {
-        product.categories = await Category.findByNames(categoryNames);
-      }
-
-      await product.save();
-
-      return true;
+      return Product.updateFromUser(productId, productUpdateInput);
     }
 
     return false;
