@@ -1,4 +1,5 @@
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { NODE_ENV } from '../config';
 
 export const formatError = (
   err: GraphQLError,
@@ -20,5 +21,11 @@ export const formatError = (
     return { message: errors.toString() };
   }
 
-  return { message: err.message };
+  if (err.message.match(/Could not find any entity of type "Address"/gi)) {
+    return { message: 'Could not find any entity of type "Address"' };
+  }
+
+  return {
+    message: NODE_ENV === 'development' ? err.message : 'Something went wrong!',
+  };
 };
