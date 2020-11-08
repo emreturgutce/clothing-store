@@ -5,8 +5,8 @@ import { Product } from '../../models/product';
 export class GetProductByIdResolver {
   @Authorized()
   @Query(() => Product)
-  async getProductById(@Arg('id') id: string): Promise<Product> {
-    const product = await Product.findOneOrFail(id);
+  async getProductById(@Arg('productId') productId: string): Promise<Product> {
+    const product = await Product.findOneOrFail(productId);
 
     return product;
   }
