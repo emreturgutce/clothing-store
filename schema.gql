@@ -89,18 +89,18 @@ type Mutation {
   completeOrder(data: CompleteOrderInput): Order
   confirmEmail(token: String): Boolean
   createOrder(orderProducts: OrderInputs): Order
-  delAddress(id: String): Boolean
   delCategory(id: String): Boolean
+  deleteAddress(addressId: String): Boolean
+  deleteProduct(productId: String): Boolean
   delOrder(id: String): Boolean
-  delProduct(id: String): Boolean
   detail(data: DetailInput): User
   forgotPassword(email: String): Boolean
   login(data: LoginInput): User
   rateProduct(productId: String, rate: Float): Product
   register(data: RegisterInput): User
-  updateAddress(data: OptionalAddressInput, id: String): Boolean
+  updateAddress(addressId: String, data: OptionalAddressInput): Boolean
   updateCategory(data: CategoryInput, id: String): Boolean
-  updateProduct(data: ProductInput, id: String): Boolean
+  updateProduct(productId: String, productUpdateInput: ProductUpdateInput): Boolean
 }
 
 input OptionalAddressInput {
@@ -182,16 +182,24 @@ input ProductInput {
   stock: Float
 }
 
+input ProductUpdateInput {
+  categoryNames: [String!]
+  description: String
+  name: String
+  price: Float
+  stock: Float
+}
+
 type Query {
-  getAddressById(id: String): Address
-  getAddressByUser: [Address!]
+  getAddressById(addressId: String): Address
+  getAddressByUser(userId: String): [Address!]
   getCategories: [Category!]
   getCategoryById(id: String): Category
   getOrderById(id: String): Order
   getOrderByUser: [Order]
   getOrders: [Order!]
-  getProductById(id: String): Product
-  getProductByUser: [Product]
+  getProductById(productId: String): Product
+  getProductByUser(userId: String): [Product]
   getProducts(data: PaginationInput): PaginatedProductsResponse
   hello: String
   logout: Boolean
@@ -216,6 +224,7 @@ type User {
   email: String
   id: ID
   orders: [Order!]
+  products: [Product!]
   role: UserRole
   updatedAt: DateTime
 }
