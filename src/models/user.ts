@@ -46,6 +46,13 @@ export class User extends ExternalEntity {
   @JoinColumn()
   detail!: UserDetail;
 
+  @Field(() => [Product], { nullable: true })
+  @OneToMany(() => Product, (product) => product.owner, {
+    nullable: true,
+    cascade: true,
+  })
+  products?: Product[];
+
   @Field(() => [Order], { nullable: true })
   @OneToMany(() => Order, (order) => order.user, {
     cascade: true,
