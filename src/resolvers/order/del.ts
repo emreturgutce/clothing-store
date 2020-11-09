@@ -1,17 +1,12 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 import { Order } from '../../models/order';
+import { UserRoles } from '../../types';
 
 @Resolver()
-export class DelOrderResolver {
-  @Authorized()
+export class DeleteOrderResolver {
+  @Authorized([UserRoles.admin])
   @Mutation(() => Boolean)
-  async delOrder(@Arg('id') id: string): Promise<boolean> {
-    const result = await Order.delete(id);
-
-    if (!result.affected) {
-      return false;
-    }
-
-    return true;
+  async deleteOrder(@Arg('id') id: string): Promise<boolean> {
+    return Order.deleteById(id);
   }
 }
