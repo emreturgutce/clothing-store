@@ -6,8 +6,6 @@ export class GetOrdersResolver {
   @Authorized('ADMIN')
   @Query(() => [Order], { nullable: true })
   async getOrders(): Promise<Order[]> {
-    const orders = await Order.find({});
-
-    return orders;
+    return Order.find({});
   }
 }
