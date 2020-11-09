@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { IsEmail, Length } from 'class-validator';
+import { IsBoolean, IsEmail, Length } from 'class-validator';
 import { UserDetail } from './user-detail';
 import { Order } from './order';
 import { ExternalEntity } from './base-entity';
@@ -22,6 +22,7 @@ export class User extends ExternalEntity {
 
   @Field({ defaultValue: false })
   @Column({ default: false })
+  @IsBoolean()
   confirmed!: boolean;
 
   @Field({ nullable: true })
