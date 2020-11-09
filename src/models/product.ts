@@ -1,6 +1,8 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -83,6 +85,10 @@ export class Product extends ExternalEntity {
     cascade: true,
   })
   comments!: Comment[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  @Index({ unique: true })
+  createdAt!: Date;
 
   static async updateFromUser(
     productId: string,
