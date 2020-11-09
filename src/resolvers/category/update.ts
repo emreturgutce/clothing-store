@@ -1,22 +1,16 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 import { Category } from '../../models/category';
 import { CategoryInput } from '../../input-types/category-input';
+import { UserRoles } from '../../types';
 
 @Resolver()
 export class UpdateCategoryResolver {
-  @Authorized()
+  @Authorized([UserRoles.admin])
   @Mutation(() => Boolean)
   async updateCategory(
     @Arg('id') id: string,
-    @Arg('data')
-    { name }: CategoryInput,
+    @Arg('data') { name }: CategoryInput,
   ): Promise<boolean> {
-    const result = await Category.update({ id }, { name });
-
-    if (!result.affected) {
-      return false;
-    }
-
-    return true;
+    return Category.updateNameById(id, name);
   }
 }
