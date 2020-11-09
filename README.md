@@ -13,7 +13,9 @@ E-commerce app with Node.js, Express, GraphQL, TypeGraphQL, TypeORM
 If using docker you need to create a **.env.docker** file and fill it with values as specified in the **.env.example** file.
 
 <br>
+
 ##### Without Docker
+
 If not using docker you need to have postgres and redis running in your system. After that you need to create a **.env** file and fill it with values as specified in the **.env.example** file.
 
 ### Installation
@@ -25,6 +27,7 @@ If not using docker you need to have postgres and redis running in your system. 
 ```
 
 <br>
+
 ##### With Docker
 
 ```bash
