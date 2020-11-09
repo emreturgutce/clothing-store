@@ -1,7 +1,5 @@
 ## Clothing Store
 
----
-
 E-commerce app with Node.js, Express, GraphQL, TypeGraphQL, TypeORM
 
 ### Requirements
