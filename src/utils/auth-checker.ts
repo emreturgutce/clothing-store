@@ -5,11 +5,7 @@ import { User } from '../models/user';
 import { Context } from '../types';
 
 export const authChecker: AuthChecker<Context> = async ({ context }, roles) => {
-  if (!context.req.session) {
-    return false;
-  }
-
-  if (!context.req.session.userId) {
+  if (!context.req.session?.userId) {
     return false;
   }
 
