@@ -1,20 +1,15 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 import { Category } from '../../models/category';
+import { UserRoles } from '../../types';
 
 @Resolver()
 export class DelCategoryResolver {
-  @Authorized()
+  @Authorized([UserRoles.admin])
   @Mutation(() => Boolean)
   async delCategory(
     @Arg('id')
     id: string,
   ): Promise<boolean> {
-    const result = await Category.delete(id);
-
-    if (!result.affected) {
-      return false;
-    }
-
-    return true;
+    return Category.deleteById(id);
   }
 }
