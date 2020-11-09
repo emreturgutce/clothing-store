@@ -91,8 +91,8 @@ type Mutation {
   createOrder(orderProducts: OrderInputs): Order
   delCategory(id: String): Boolean
   deleteAddress(addressId: String): Boolean
+  deleteOrder(id: String): Boolean
   deleteProduct(productId: String): Boolean
-  delOrder(id: String): Boolean
   detail(data: DetailInput): User
   forgotPassword(email: String): Boolean
   login(data: LoginInput): User
@@ -196,7 +196,7 @@ type Query {
   getCategories: [Category!]
   getCategoryById(id: String): Category
   getOrderById(id: String): Order
-  getOrderByUser: [Order]
+  getOrderByUser(userId: String): [Order]
   getOrders: [Order!]
   getProductById(productId: String): Product
   getProductByUser(userId: String): [Product]
