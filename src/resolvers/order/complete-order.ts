@@ -1,14 +1,14 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import { Order } from '../../models/order';
-import { Context, OrderStatus } from '../../types';
+import { Context, OrderStatus, UserRoles } from '../../types';
 import { JWT_SECRET, stripe } from '../../config';
 import { Payment } from '../../models/payment';
 import { CompleteOrderInput } from '../../input-types/complete-order-input';
 
 @Resolver()
 export class CompleteOrderResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Mutation(() => Order, { nullable: true })
   async completeOrder(
     @Arg('data') { id, token }: CompleteOrderInput,
