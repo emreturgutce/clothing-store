@@ -24,4 +24,12 @@ export class Category extends ExternalEntity {
 
     return categories;
   }
+
+  static async deleteById(id: string): Promise<boolean> {
+    return !!(await this.delete(id)).affected;
+  }
+
+  static async updateNameById(id: string, name: string) {
+    return !!(await Category.update({ id }, { name })).affected;
+  }
 }
