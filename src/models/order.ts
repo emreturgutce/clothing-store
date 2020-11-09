@@ -62,4 +62,8 @@ export class Order extends ExternalEntity {
       expiration.getSeconds() + ORDER_EXPIRATION_TIME,
     );
   }
+
+  static async deleteById(id: string): Promise<boolean> {
+    return !!(await Order.delete(id)).affected;
+  }
 }
