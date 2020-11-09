@@ -6,14 +6,14 @@ import { Order } from '../../models/order';
 import { OrderProduct } from '../../models/order-product';
 import { Product } from '../../models/product';
 import { User } from '../../models/user';
-import { Context } from '../../types';
+import { Context, UserRoles } from '../../types';
 import { Address } from '../../models/address';
 import { expirationQueue } from '../../config/expiration-queue';
 import { calculateDelay } from '../../utils/calculate-delay';
 
 @Resolver()
 export class CreateOrderResolver {
-  @Authorized()
+  @Authorized([UserRoles.user, UserRoles.admin])
   @Mutation(() => Order, { nullable: true })
   async createOrder(
     @Arg('orderProducts') { orderProductInputs, addressId }: OrderInputs,
