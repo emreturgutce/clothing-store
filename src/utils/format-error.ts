@@ -25,6 +25,10 @@ export const formatError = (
     return { message: 'Could not find any entity of type "Address"' };
   }
 
+  if (err.message.match(/Duplicate key value violates unique constraint/gi)) {
+    return { message: 'Field already in use' };
+  }
+
   return {
     message: NODE_ENV === 'development' ? err.message : 'Something went wrong!',
   };
