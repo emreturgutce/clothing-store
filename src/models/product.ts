@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Field, Float, Int, ObjectType } from 'type-graphql';
-import { IsNumber, Length, Min } from 'class-validator';
+import { IsNumber, IsOptional, Length, Min } from 'class-validator';
 import { Category } from './category';
 import { User } from './user';
 import { Comment } from './comment';
@@ -43,6 +43,7 @@ export class Product extends ExternalEntity {
 
   @Field({ defaultValue: 0 })
   @Column('int', { default: 0 })
+  @IsOptional()
   @Min(0, { message: 'count cannot be less than 0' })
   count!: number;
 

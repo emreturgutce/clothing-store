@@ -31,7 +31,6 @@ export class AddProductResolver {
       stock,
       owner,
       categories,
-      count: 0,
     }).save();
 
     return product;
