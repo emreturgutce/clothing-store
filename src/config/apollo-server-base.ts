@@ -6,7 +6,7 @@ export const initializeApolloServerBase = async () => {
 
   const server = new ApolloServerBase({
     schema,
-    context: ({ req, res }) => ({ req, res }),
+    context: () => ({ req: { session: {} }, res: {} }),
   });
 
   return server;
