@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { PHONE_NUMBER_FORMAT } from '../../../constants';
 import { registerMutation } from '../../../mutations';
 import { helloQuery } from '../../../mutations/hello';
 import { gCall } from '../../../utils';
@@ -17,7 +18,7 @@ describe('Register Mutation Test Suite', () => {
   it('Should fail with undefined password', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
     };
 
@@ -29,7 +30,7 @@ describe('Register Mutation Test Suite', () => {
   it('Should fail with invalid password', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: '12345',
     };
@@ -42,7 +43,7 @@ describe('Register Mutation Test Suite', () => {
   it('Should fail with undefined email', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       password: faker.internet.password(6),
     };
 
@@ -54,7 +55,7 @@ describe('Register Mutation Test Suite', () => {
   it('Should fail with invalid email', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: 'invalidemail',
       password: faker.internet.password(6),
     };
@@ -67,12 +68,13 @@ describe('Register Mutation Test Suite', () => {
   it('Should create user successfully', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
 
     const response = await gCall(registerMutation, { data: user });
+
+    console.log(response);
 
     expect(response.data).toBeDefined();
     expect(response.data!.register.email).toEqual(user.email);

@@ -3,3 +3,4 @@ export const COOKIE_NAME = 'auth_token';
 export const CONFIRM_USER_PREFIX = 'user-confirmation:';
 export const FORGOT_PASSWORD_PREFIX = 'forgot-password:';
 export const ORDER_EXPIRATION_TIME = 60 * 15; // 15 Minutes
+export const PHONE_NUMBER_FORMAT = '+905#########';

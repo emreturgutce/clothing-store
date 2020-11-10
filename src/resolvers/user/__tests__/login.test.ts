@@ -1,13 +1,13 @@
 import faker from 'faker';
-import { User } from '../../../models/user';
-import { loginMutation, registerMutation } from '../../../mutations';
+import { PHONE_NUMBER_FORMAT } from '../../../constants';
+import { loginMutation } from '../../../mutations';
 import { gCall } from '../../../utils';
 
 describe('Login Mutation Test Suite', () => {
   it('Should fail with undefined password', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
@@ -25,7 +25,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should fail with invalid password', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
@@ -43,7 +43,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should fail with wrong password', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
@@ -60,7 +60,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should fail with undefined email', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
@@ -78,7 +78,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should fail with invalid email', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
@@ -96,7 +96,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should fail with wrong email', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
@@ -114,7 +114,7 @@ describe('Login Mutation Test Suite', () => {
   it('Should login successfully', async () => {
     const user = {
       name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.phoneNumber('+905#########'),
       email: faker.internet.email(),
       password: faker.internet.password(6),
     };
