@@ -190,6 +190,7 @@ input ProductUpdateInput {
 type Query {
   getAddressById(addressId: String): Address
   getAddressByUser(userId: String): [Address!]
+  getAvatar: Boolean
   getCategories: [Category!]
   getCategoryById(id: String): Category
   getOrderById(id: String): Order
