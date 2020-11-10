@@ -1,38 +1,22 @@
 import 'colors';
-import { ExecutionResult } from 'graphql';
 import { createConnection, getConnection } from 'typeorm';
-import { registerMutation } from '../mutations';
-import { clearDatabase, gCall } from '../utils';
-
-type User = {
-  name?: string;
-  phone?: string;
-  email: string;
-  password: string;
-};
+import {
+  createTestClient,
+  ApolloServerTestClient,
+} from 'apollo-server-testing';
+import { clearDatabase } from '../utils';
+import { initializeApolloServerBase } from '../config/apollo-server-base';
 
 declare global {
   namespace NodeJS {
     interface Global {
-      signup(
-        user: User,
-      ): Promise<
-        ExecutionResult<
-          {
-            [key: string]: any;
-          },
-          {
-            [key: string]: any;
-          }
-        >
-      >;
+      graphqlClient: ApolloServerTestClient;
     }
   }
 }
 
-global.signup = (user: User) => gCall(registerMutation, { data: user });
-
 beforeAll(async () => {
+  global.graphqlClient = createTestClient(await initializeApolloServerBase());
   await createConnection();
 });
 
