@@ -19,9 +19,6 @@ input AddressInput {
   zipcode: Float
 }
 
-"""Avatar scalar type"""
-scalar avatar
-
 input CancelOrderInput {
   id: String
 }
@@ -217,7 +214,7 @@ input RegisterInput {
 scalar Upload
 
 type User {
-  avatar: avatar
+  avatarId: String
   confirmed: Boolean
   createdAt: DateTime
   detail: UserDetail
