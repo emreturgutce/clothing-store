@@ -54,6 +54,18 @@ if (!process.env.STRIPE_KEY) {
   throw new Error('STRIPE_KEY must be defined as env variable');
 }
 
+if (!process.env.AWS_ACCESS_KEY_ID) {
+  throw new Error('AWS_ACCESS_KEY_ID must be defined as env variable');
+}
+
+if (!process.env.AWS_SECRET_ACCESS_KEY) {
+  throw new Error('AWS_SECRET_ACCESS_KEY must be defined as env variable');
+}
+
+if (!process.env.AWS_S3_BUCKET) {
+  throw new Error('AWS_S3_BUCKET must be defined as env variable');
+}
+
 export const {
   SESSION_SECRET,
   JWT_SECRET,
@@ -68,6 +80,9 @@ export const {
   REDIS_HOST,
   REDIS_PORT,
   STRIPE_KEY,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  AWS_S3_BUCKET,
 } = process.env;
 export * from './redis';
 export * from './stripe';
