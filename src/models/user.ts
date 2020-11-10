@@ -27,8 +27,8 @@ export class User extends ExternalEntity {
   confirmed!: boolean;
 
   @Field({ nullable: true })
-  @Column('bytea', { nullable: true })
-  avatar?: Buffer;
+  @Column({ nullable: true })
+  avatarId?: string;
 
   @Field()
   @OneToOne(() => UserRole, {
