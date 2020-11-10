@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { NODE_ENV } from '../config';
 
 export const sendEmail = async (email: string, url: string) => {
   const testAccount = await nodemailer.createTestAccount();
@@ -21,7 +22,9 @@ export const sendEmail = async (email: string, url: string) => {
     html: `<a href="${url}">${url}</a> `, // html body
   });
 
-  console.info(`Message sent: ${info.messageId}`.cyan);
+  if (NODE_ENV === 'development') {
+    console.info(`Message sent: ${info.messageId}`.cyan);
 
-  console.info(`Preview URL:  ${nodemailer.getTestMessageUrl(info)}`.cyan);
+    console.info(`Preview URL:  ${nodemailer.getTestMessageUrl(info)}`.cyan);
+  }
 };
