@@ -1,84 +1,17 @@
-import faker from 'faker';
-import { PHONE_NUMBER_FORMAT } from '../../../constants';
-import { registerMutation } from '../../../mutations';
-import { helloQuery } from '../../../mutations/hello';
-import { gCall } from '../../../utils';
+import { gql } from 'apollo-server-core';
+
+const helloQuery = gql`
+  {
+    hello
+  }
+`;
 
 describe('Register Mutation Test Suite', () => {
   it('Hello Query', async () => {
-    const response = await gCall(helloQuery, undefined);
+    const res = await global.graphqlClient.query({ query: helloQuery });
 
-    expect(response).toMatchObject({
-      data: {
-        hello: 'hello World',
-      },
-    });
-  });
+    console.log(res);
 
-  it('Should fail with undefined password', async () => {
-    const user = {
-      name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
-      email: faker.internet.email(),
-    };
-
-    const response = await gCall(registerMutation, { data: user });
-
-    expect(response.data!.register).toBeNull();
-  });
-
-  it('Should fail with invalid password', async () => {
-    const user = {
-      name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
-      email: faker.internet.email(),
-      password: '12345',
-    };
-
-    const response = await gCall(registerMutation, { data: user });
-
-    expect(response.data!.register).toBeNull();
-  });
-
-  it('Should fail with undefined email', async () => {
-    const user = {
-      name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
-      password: faker.internet.password(6),
-    };
-
-    const response = await gCall(registerMutation, { data: user });
-
-    expect(response.data!.register).toBeNull();
-  });
-
-  it('Should fail with invalid email', async () => {
-    const user = {
-      name: faker.name.firstName(1),
-      phone: faker.phone.phoneNumber(PHONE_NUMBER_FORMAT),
-      email: 'invalidemail',
-      password: faker.internet.password(6),
-    };
-
-    const response = await gCall(registerMutation, { data: user });
-
-    expect(response.data!.register).toBeNull();
-  });
-
-  it('Should create user successfully', async () => {
-    const user = {
-      name: faker.name.firstName(1),
-      email: faker.internet.email(),
-      password: faker.internet.password(6),
-    };
-
-    const response = await gCall(registerMutation, { data: user });
-
-    console.log(response);
-
-    expect(response.data).toBeDefined();
-    expect(response.data!.register.email).toEqual(user.email);
-    expect(response.data!.register.password).toBeUndefined();
-    expect(response.data!.register.detail.name).toEqual(user.name);
+    expect(res).toBeDefined();
   });
 });
