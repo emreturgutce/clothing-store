@@ -45,7 +45,9 @@
   },
   "dependencies": {
     "apollo-cache-control": "^0.11.4",
+    "apollo-server-core": "^2.19.0",
     "apollo-server-express": "^2.18.2",
+    "apollo-server-testing": "^2.19.0",
     "aws-sdk": "^2.788.0",
     "bcryptjs": "^2.4.3",
     "bull": "^3.18.1",
@@ -58,6 +60,7 @@
     "express-session": "^1.17.1",
     "faker": "^5.1.0",
     "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
     "graphql-upload": "^11.0.0",
     "helmet": "^4.1.1",
     "ioredis": "^4.19.0",
