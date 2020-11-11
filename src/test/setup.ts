@@ -1,8 +1,8 @@
-import { ApolloServerBase } from 'apollo-server-core';
 import 'colors';
 import { createConnection, getConnection } from 'typeorm';
-import { initializeApolloServerBase } from '../config/apollo-server-base';
+import { ApolloServerBase } from 'apollo-server-core';
 import { clearDatabase } from '../utils';
+import { initializeApolloServerBase } from '../config/apollo-server-base';
 
 declare global {
   namespace NodeJS {
