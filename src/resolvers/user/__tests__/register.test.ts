@@ -1,5 +1,6 @@
 import { createTestClient } from 'apollo-server-testing';
 import { helloQuery, registerMutation } from '../../../mutations';
+import { UserRoles } from '../../../types';
 import { createTestUser } from '../../../utils/create-test-user';
 
 describe('Register Mutation Test Suite', () => {
@@ -16,19 +17,44 @@ describe('Register Mutation Test Suite', () => {
     expect(res.extensions).toBeUndefined();
   });
 
-  it('Register Mutation', async () => {
+  it('Successful Register Mutation', async () => {
     const { mutate } = createTestClient(global.server);
+
+    const user = createTestUser();
 
     const res = await mutate({
       mutation: registerMutation,
       variables: {
-        data: createTestUser(),
+        data: user,
       },
     });
 
-    console.log(res);
-
     expect(res).toBeDefined();
-    expect(res.data?.register).toBeDefined();
+    expect(res.errors).toBeUndefined();
+    expect(res.extensions).toBeUndefined();
+    expect(res.data.register).toBeDefined();
+
+    const {
+      id,
+      email,
+      password,
+      confirmed,
+      avatarId,
+      role,
+      detail,
+      createdAt,
+      updatedAt,
+    } = res.data.register;
+
+    expect(id).toBeDefined();
+    expect(email).toBeDefined();
+    expect(password).toBeUndefined();
+    expect(confirmed).toEqual(false);
+    expect(avatarId).toBeNull();
+    expect(role.name).toEqual(UserRoles.user);
+    expect(detail.name).toEqual(user.name);
+    expect(detail.phone).toEqual(user.phone);
+    expect(createdAt).toBeDefined();
+    expect(updatedAt).toBeDefined();
   });
 });
