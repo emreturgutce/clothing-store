@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { IsOptional, IsPhoneNumber, Length } from 'class-validator';
+import { IsOptional, Length } from 'class-validator';
 import { ExternalEntity } from './base-entity';
 
 @ObjectType()
@@ -17,6 +17,5 @@ export class UserDetail extends ExternalEntity {
   @Field({ nullable: true })
   @Column({ nullable: true, unique: true })
   @IsOptional()
-  @IsPhoneNumber('TR', { message: 'phone number must be valid' })
   phone?: string;
 }

@@ -1,4 +1,4 @@
-import { IsOptional, IsPhoneNumber, Length } from 'class-validator';
+import { IsOptional, Length } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 import { LoginInput } from './login-input';
 
@@ -13,6 +13,5 @@ export class RegisterInput extends LoginInput {
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsPhoneNumber('TR', { message: 'phone number must be valid' })
   phone?: string;
 }
