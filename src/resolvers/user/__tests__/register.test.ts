@@ -57,4 +57,22 @@ describe('Register Mutation Test Suite', () => {
     expect(createdAt).toBeDefined();
     expect(updatedAt).toBeDefined();
   });
+
+  it('Should Fail With Invalid Email', async () => {
+    const { mutate } = createTestClient(global.server);
+
+    const res = await mutate({
+      mutation: registerMutation,
+      variables: {
+        data: createTestUser({ email: 'invalidemail' }),
+      },
+    });
+
+    expect(res).toBeDefined();
+    expect(res.errors).toBeDefined();
+    // @ts-ignore
+    expect(res.errors[0].message).toEqual('Argument Validation Error');
+    expect(res.extensions).toBeUndefined();
+    expect(res.data.register).toBeNull();
+  });
 });
