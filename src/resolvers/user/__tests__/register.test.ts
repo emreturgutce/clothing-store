@@ -1,5 +1,6 @@
 import { createTestClient } from 'apollo-server-testing';
 import { helloQuery, registerMutation } from '../../../mutations';
+import { createTestUser } from '../../../utils/create-test-user';
 
 describe('Register Mutation Test Suite', () => {
   it('Hello Query', async () => {
@@ -21,18 +22,13 @@ describe('Register Mutation Test Suite', () => {
     const res = await mutate({
       mutation: registerMutation,
       variables: {
-        data: {
-          name: 'emre',
-          phone: '+905350149645',
-          email: 'emreturgut@mail.com',
-          password: '123456',
-        },
+        data: createTestUser(),
       },
     });
 
+    console.log(res);
+
     expect(res).toBeDefined();
-    // expect(res.data?.hello).toEqual('hello World');
-    // expect(res.errors).toBeUndefined();
-    // expect(res.extensions).toBeUndefined();
+    expect(res.data?.register).toBeDefined();
   });
 });
