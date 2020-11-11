@@ -1,16 +1,9 @@
-import { ApolloServerBase } from 'apollo-server-core';
 import { createTestClient } from 'apollo-server-testing';
-import { initializeApolloServerBase } from '../../../config/apollo-server-base';
 import { helloQuery, registerMutation } from '../../../mutations';
-
-let server: ApolloServerBase;
-(async () => {
-  server = await initializeApolloServerBase();
-})();
 
 describe('Register Mutation Test Suite', () => {
   it('Hello Query', async () => {
-    const { query } = createTestClient(server);
+    const { query } = createTestClient(global.server);
 
     type Data = { hello: string };
 
@@ -23,7 +16,7 @@ describe('Register Mutation Test Suite', () => {
   });
 
   it('Register Mutation', async () => {
-    const { mutate } = createTestClient(server);
+    const { mutate } = createTestClient(global.server);
 
     const res = await mutate({
       mutation: registerMutation,
@@ -36,8 +29,6 @@ describe('Register Mutation Test Suite', () => {
         },
       },
     });
-
-    console.log(res);
 
     expect(res).toBeDefined();
     // expect(res.data?.hello).toEqual('hello World');
