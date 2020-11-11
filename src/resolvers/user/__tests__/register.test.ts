@@ -75,4 +75,22 @@ describe('Register Mutation Test Suite', () => {
     expect(res.extensions).toBeUndefined();
     expect(res.data.register).toBeNull();
   });
+
+  it('Should Fail When Length of Password Less Than 6', async () => {
+    const { mutate } = createTestClient(global.server);
+
+    const res = await mutate({
+      mutation: registerMutation,
+      variables: {
+        data: createTestUser({ password: '12345' }),
+      },
+    });
+
+    expect(res).toBeDefined();
+    expect(res.errors).toBeDefined();
+    // @ts-ignore
+    expect(res.errors[0].message).toEqual('Argument Validation Error');
+    expect(res.extensions).toBeUndefined();
+    expect(res.data.register).toBeNull();
+  });
 });
