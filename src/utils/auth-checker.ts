@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 import { AuthChecker } from 'type-graphql';
 import { JWT_SECRET } from '../config';
@@ -6,7 +7,9 @@ import { Context } from '../types';
 
 export const authChecker: AuthChecker<Context> = async ({ context }, roles) => {
   if (!context.req.session?.userId) {
-    return false;
+    throw new AuthenticationError(
+      'You must be authenticated to perform this action',
+    );
   }
 
   const userId = jwt.verify(context.req.session.userId, JWT_SECRET);
@@ -14,7 +17,9 @@ export const authChecker: AuthChecker<Context> = async ({ context }, roles) => {
   const user = await User.findOne({ where: { id: userId } });
 
   if (!user) {
-    return false;
+    throw new AuthenticationError(
+      'You must be authenticated to perform this action',
+    );
   }
 
   if (roles.length > 0) {
