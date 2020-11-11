@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "start:dev": "ts-node-dev src/index.ts",
     "build": "tsc",
-    "test": "jest --runInBand --watchAll --no-cache",
+    "test": "jest --runInBand --watchAll",
     "coverage": "jest --coverage --detectOpenHandles",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
