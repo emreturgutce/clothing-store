@@ -9,6 +9,7 @@ on:
       - ".eslintigonre"
       - ".eslintrc.json"
       - "docker-compose.yml"
+      - "docker-compose.dev.yml"
       - "Dockerfile"
       - "LICENSE"
       - "nginx.conf"
