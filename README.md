@@ -10,7 +10,6 @@ E-commerce app with Node.js, Express, GraphQL, TypeGraphQL, TypeORM
 
 If using docker you need to create a **.env.docker** file and fill it with values as specified in the **.env.example** file.
 
-<br>
 
 ##### Without Docker
 
