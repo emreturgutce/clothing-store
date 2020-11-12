@@ -12,6 +12,4 @@ EXPOSE 4000
 
 RUN yarn build
 
-COPY .env.docker .
-
 CMD yarn start
