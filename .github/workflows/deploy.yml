@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Building Image
-        run: docker build -t emreturgutce/clothing-store_app Dockerfile.prod
+        run: docker build -t emreturgutce/clothing-store_app -f Dockerfile.prod .
         env: 
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
