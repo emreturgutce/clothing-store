@@ -21,8 +21,6 @@ If not using docker you need to have postgres and redis running in your system. 
   git clone https://github.com/emreturgutce/clothing-store.git
 ```
 
-<br>
-
 ##### With Docker
 
 ```bash
