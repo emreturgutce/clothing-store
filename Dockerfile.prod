@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:alpine
 
 WORKDIR /app
 
@@ -12,16 +12,6 @@ EXPOSE 4000
 
 RUN yarn build
 
-FROM node:alpine
-
-WORKDIR /app
-
-COPY package.json .
-
-RUN yarn install --production=true
-
-COPY --from=builder /app/dist ./dist
-
-COPY .env .
+COPY .env.docker .
 
 CMD yarn start
