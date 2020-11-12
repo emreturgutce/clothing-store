@@ -2,17 +2,26 @@ name: tests
 
 on:
   pull_request:
-    paths:
-      - "./"
+    branches:
+      - master
+    paths-ignore:
+      - ".env.example"
+      - ".eslintigonre"
+      - ".eslintrc.json"
+      - "docker-compose.yml"
+      - "Dockerfile"
+      - "LICENSE"
+      - "nginx.conf"
+      - "README.md"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Installing Dependencies
         run: npm install
 
       - name: Running Tests
-        run:  npm test
+        run: npm test
