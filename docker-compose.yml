@@ -10,13 +10,12 @@ services:
     depends_on:
       - app
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: emreturgutce/clothing-store_app
     restart: on-failure
     depends_on:
       - postgres
       - redis
+    env_file: .env.docker
   postgres:
     image: postgres
     restart: on-failure
