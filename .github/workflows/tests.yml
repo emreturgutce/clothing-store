@@ -1,0 +1,18 @@
+name: tests
+
+on:
+  pull_request:
+    paths:
+      - "./"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Installing Dependencies
+        run: npm install
+
+      - name: Running Tests
+        run:  npm test

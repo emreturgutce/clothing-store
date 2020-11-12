@@ -1,0 +1,27 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+      
+      - name: Building Image
+        run: docker-compose build
+
+      - name: Tagging Image
+        run: docker-compose tag clothing-store_app emreturgutce/clothing-store_app
+      
+      - name: Trying to Login Docker
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Pushing Image to Docker Hub
+        run: docker push emreturgutce/clothing-store
