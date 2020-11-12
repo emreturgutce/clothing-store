@@ -19,7 +19,7 @@ initializeApolloServer(app)
   .then(() => {
     app.listen(PORT, () => {
       const url = `http://localhost:4000/graphql`.red;
-      console.log(`🚀👍 Server ready at ${url}`.bgCyan.black);
+      console.log(`🚀 Server ready at ${url}`.bgCyan.black);
     });
   })
   .catch((err) => {
