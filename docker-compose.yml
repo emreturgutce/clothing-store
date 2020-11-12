@@ -10,13 +10,14 @@ services:
     depends_on:
       - app
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    restart: on-failure
     depends_on:
       - postgres
       - redis
     env_file: .env.docker
-    volumes:
-      - .:/app
   postgres:
     image: postgres
     restart: on-failure
