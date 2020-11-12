@@ -17,7 +17,6 @@ services:
     depends_on:
       - postgres
       - redis
-    env_file: .env.docker
   postgres:
     image: postgres
     restart: on-failure

@@ -9,7 +9,23 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Building Image
-        run: docker-compose build
+        run: docker-compose build \
+              -e SESSION_SECRET=${{ secrets.SESSION_SECRET }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e PG_HOST=${{ secrets.PG_HOST }} \
+              -e PG_PORT=${{ secrets.PG_PORT }} \
+              -e PG_USER=${{ secrets.PG_USER }} \
+              -e PG_PASSWORD=${{ secrets.PG_PASSWORD }} \
+              -e PG_DATABASE=${{ secrets.PG_DATABASE }} \
+              -e NODE_ENV=${{ secrets.NODE_ENV }} \
+              -e DB_TYPE=${{ secrets.DB_TYPE }} \
+              -e PORT=${{ secrets.PORT }} \
+              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
+              -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
+              -e STRIPE_KEY=${{ secrets.STRIPE_KEY }} \
+              -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+              -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+              -e AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
 
       - name: Tagging Image
         run: docker-compose tag clothing-store_app emreturgutce/clothing-store_app
