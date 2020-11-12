@@ -1,16 +1,40 @@
 name: deploy
 
-on: push
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - ".env.example"
+      - ".eslintigonre"
+      - ".eslintrc.json"
+      - "docker-compose.yml"
+      - "Dockerfile"
+      - "LICENSE"
+      - "nginx.conf"
+      - "README.md"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - ".env.example"
+      - ".eslintigonre"
+      - ".eslintrc.json"
+      - "docker-compose.yml"
+      - "Dockerfile"
+      - "LICENSE"
+      - "nginx.conf"
+      - "README.md"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Building Image
         run: docker build -t emreturgutce/clothing-store_app -f Dockerfile.prod .
-        env: 
+        env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           PG_HOST: ${{ secrets.PG_HOST }}
@@ -27,12 +51,12 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-      
+
       - name: Trying to Login Docker
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Pushing Image to Docker Hub
         run: docker push emreturgutce/clothing-store_app
