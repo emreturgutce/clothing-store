@@ -2,7 +2,7 @@
 
 ## Clothing Store
 
-E-commerce app with Node.js, Express, GraphQL, TypeGraphQL, TypeORM
+Clothing Store is an open-source GraphQL API that can handle user registrations, payments, orders. I built this API using Node.js, TypeGraphQL ,TypeORM.
 
 ### Requirements
 
