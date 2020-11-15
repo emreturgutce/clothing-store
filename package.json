@@ -7,7 +7,7 @@
   "repository": "git@github.com:emreturgutce/clothing-store.git",
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "start:dev": "ts-node-dev src/index.ts",
+    "start:dev": "ts-node-dev --poll --respawn --transpile-only  src/index.ts",
     "build": "tsc",
     "test": "jest --runInBand --watchAll",
     "coverage": "jest --coverage --detectOpenHandles",
