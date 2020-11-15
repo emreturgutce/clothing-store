@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   nginx:
     image: nginx
@@ -10,11 +10,15 @@ services:
     depends_on:
       - app
   app:
-    image: emreturgutce/clothing-store_app
+    build:
+      context: .
+      target: dev
     restart: on-failure
     depends_on:
       - postgres
       - redis
+    volumes:
+      - .:/app
     env_file: .env.docker
   postgres:
     image: postgres
