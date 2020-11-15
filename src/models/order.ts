@@ -31,7 +31,7 @@ export class Order extends ExternalEntity {
   @JoinColumn()
   payment?: Payment;
 
-  @Field()
+  @Field(() => OrderStatus)
   @Column({
     type: 'enum',
     enum: OrderStatus,
