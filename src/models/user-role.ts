@@ -6,7 +6,7 @@ import { UserRoles } from '../types';
 @ObjectType()
 @Entity()
 export class UserRole extends ExternalEntity {
-  @Field()
+  @Field(() => UserRoles)
   @Column({
     type: 'enum',
     enum: UserRoles,
