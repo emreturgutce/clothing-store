@@ -113,7 +113,7 @@ type Order {
   id: ID
   orderProducts: [OrderProduct]
   payment: Payment
-  status: String
+  status: OrderStatus
   updatedAt: DateTime
   user: User
 }
@@ -135,6 +135,13 @@ type OrderProduct {
 input OrderProductInput {
   productId: String
   quantity: Float
+}
+
+enum OrderStatus {
+  awaitingPayment
+  cancelled
+  completed
+  expired
 }
 
 type PaginatedProductsResponse {
@@ -238,6 +245,11 @@ type UserDetail {
 type UserRole {
   createdAt: DateTime
   id: ID
-  name: String
+  name: UserRoles
   updatedAt: DateTime
+}
+
+enum UserRoles {
+  admin
+  user
 }
