@@ -1,7 +1,9 @@
 import Redis from 'ioredis';
-import { REDIS_HOST, REDIS_PORT, REDIS_URL } from '.';
+import { REDIS_HOST, REDIS_PORT, REDIS_USER, REDIS_PASSWORD } from '.';
 
 export const redis = new Redis({
-  host: REDIS_HOST || REDIS_URL,
+  username: REDIS_USER,
+  host: REDIS_HOST,
+  password: REDIS_PASSWORD,
   port: parseInt(REDIS_PORT, 10),
 });
