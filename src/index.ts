@@ -1,10 +1,9 @@
+import './utils/clear';
 import 'reflect-metadata';
 import 'colors';
 import { createConnection } from 'typeorm';
 import { app } from './app';
 import { initializeApolloServer, PORT } from './config';
-
-console.clear();
 
 createConnection()
   .then(() => {
