@@ -8,18 +8,20 @@ const {
   PG_DATABASE,
   DB_TYPE,
   NODE_ENV,
-  DATABASE_URL,
 } = require(`./${isProd ? 'dist' : 'src'}/config/index${isProd ? '' : '.ts'}`);
 
 const database = NODE_ENV === 'test' ? 'clothing_store_test' : PG_DATABASE;
 
 module.exports = {
   type: DB_TYPE,
-  host: PG_HOST || DATABASE_URL,
+  host: PG_HOST,
   port: PG_PORT,
   username: PG_USER,
   password: PG_PASSWORD,
   database,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   synchronize: true,
   logging: NODE_ENV === 'development',
   entities: [`${isProd ? 'dist' : 'src'}/models/**/*.*`],
