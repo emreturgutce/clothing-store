@@ -10,8 +10,8 @@ if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET must be defined as env variable');
 }
 
-if (!process.env.PG_HOST) {
-  throw new Error('PG_HOST must be defined as env variable');
+if (!process.env.PG_HOST && !process.env.DATABASE_URL) {
+  throw new Error('PG_HOST or DATABASE_URL must be defined as env variable');
 }
 
 if (!process.env.PG_PORT) {
@@ -42,8 +42,8 @@ if (!process.env.PORT) {
   throw new Error('PORT must be defined as env variable');
 }
 
-if (!process.env.REDIS_HOST) {
-  throw new Error('REDIS_HOST must be defined as env variable');
+if (!process.env.REDIS_HOST && !process.env.REDIS_URL) {
+  throw new Error('REDIS_HOST or REDIS_URL must be defined as env variable');
 }
 
 if (!process.env.REDIS_PORT) {
@@ -83,6 +83,8 @@ export const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
   AWS_S3_BUCKET,
+  DATABASE_URL,
+  REDIS_URL,
 } = process.env;
 export * from './redis';
 export * from './stripe';
