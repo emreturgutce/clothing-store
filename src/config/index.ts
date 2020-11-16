@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,6 +9,22 @@ if (!process.env.SESSION_SECRET) {
 
 if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET must be defined as env variable');
+}
+
+if (process.env.DATABASE_URL) {
+  // (DB_TYPE)://(username):(password)@(DATABASE_HOST):(DB_PORT)/DBNAME
+  const tag = process.env.DATABASE_URL.match(
+    /(.*):\/\/(.*):(.*)@(.*):(.*)\/(.*)/,
+  );
+
+  if (tag !== null) {
+    process.env.DB_TYPE = tag[1];
+    process.env.PG_USER = tag[2];
+    process.env.PG_PASSWORD = tag[3];
+    process.env.PG_HOST = tag[4];
+    process.env.PG_PORT = tag[5];
+    process.env.PG_DATABASE = tag[6];
+  }
 }
 
 if (!process.env.PG_HOST && !process.env.DATABASE_URL) {
@@ -40,6 +57,17 @@ if (!process.env.DB_TYPE) {
 
 if (!process.env.PORT) {
   throw new Error('PORT must be defined as env variable');
+}
+
+if (process.env.REDIS_URL) {
+  const tag = process.env.REDIS_URL.match(/(.*):\/\/(.*?):(.*)@(.*):(.*)/);
+
+  if (tag !== null) {
+    process.env.REDIS_USER = tag[2];
+    process.env.REDIS_PASSWORD = tag[3];
+    process.env.REDIS_HOST = tag[4];
+    process.env.REDIS_PORT = tag[5];
+  }
 }
 
 if (!process.env.REDIS_HOST && !process.env.REDIS_URL) {
@@ -83,8 +111,8 @@ export const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
   AWS_S3_BUCKET,
-  DATABASE_URL,
-  REDIS_URL,
+  REDIS_USER,
+  REDIS_PASSWORD,
 } = process.env;
 export * from './redis';
 export * from './stripe';
