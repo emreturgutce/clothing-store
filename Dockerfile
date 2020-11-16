@@ -16,11 +16,11 @@ RUN yarn install --dev-dependencies
 CMD ["yarn", "start:dev"]
 
 
-FROM base as build
+FROM dev as build
 
 COPY . .
 
-RUN npx tsc
+RUN yarn build
 
 
 FROM node:alpine as prod
