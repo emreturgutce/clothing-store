@@ -9,6 +9,5 @@ docker-compose*
 .gitignore
 README.md
 LICENSE
-.env.example
-.env
+.env*
 .eslint*
