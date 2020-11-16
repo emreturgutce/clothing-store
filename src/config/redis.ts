@@ -1,7 +1,7 @@
 import Redis, { Redis as RedisType } from 'ioredis';
 import { REDIS_HOST, REDIS_PORT, REDIS_USER, REDIS_PASSWORD } from '.';
 
-let redis: RedisType | undefined;
+let redis: RedisType;
 
 try {
   redis = new Redis({
@@ -14,6 +14,7 @@ try {
   console.log(`👹  Connected to Redis`.bgMagenta);
 } catch (err) {
   console.error(`Error occurred connecting Redis:\n${err}`.red.bold);
+  process.exit(1);
 }
 
 export { redis };
