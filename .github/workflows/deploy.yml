@@ -36,24 +36,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Building Image
-        run: docker build -t emreturgutce/clothing-store_app -f Dockerfile.prod .
-        env:
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          PG_HOST: ${{ secrets.PG_HOST }}
-          PG_PORT: ${{ secrets.PG_PORT }}
-          PG_USER: ${{ secrets.PG_USER }}
-          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
-          PG_DATABASE: ${{ secrets.PG_DATABASE }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          DB_TYPE: ${{ secrets.DB_TYPE }}
-          PORT: ${{ secrets.PORT }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        run: docker build -t emreturgutce/clothing-store_app -f Dockerfile --target prod .
 
       - name: Trying to Login Docker
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
