@@ -1,5 +1,5 @@
 import Queue from 'bull';
-import { REDIS_HOST } from '.';
+import { REDIS_HOST, REDIS_USER, REDIS_PASSWORD, REDIS_PORT } from '.';
 import { Order } from '../models/order';
 import { OrderStatus } from '../types';
 
@@ -9,7 +9,10 @@ interface Payload {
 
 const expirationQueue = new Queue<Payload>('order:expiration', {
   redis: {
+    username: REDIS_USER,
     host: REDIS_HOST,
+    password: REDIS_PASSWORD,
+    port: parseInt(REDIS_PORT, 10),
   },
 });
 
