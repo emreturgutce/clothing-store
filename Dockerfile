@@ -20,7 +20,7 @@ FROM base as build
 
 COPY . .
 
-RUN yarn build
+RUN npx tsc
 
 
 FROM node:alpine as prod
