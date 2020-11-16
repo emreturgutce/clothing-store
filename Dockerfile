@@ -25,7 +25,7 @@ RUN yarn build
 
 FROM node:alpine as prod
 
-ENV NODE_ENV=production
+ENV NODE_ENV production
 
 COPY --from=build /app .
 
