@@ -16,7 +16,7 @@ RUN yarn install --dev-dependencies
 CMD ["yarn", "start:dev"]
 
 
-FROM dev as build
+FROM base as build
 
 COPY . .
 
