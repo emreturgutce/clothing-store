@@ -19,7 +19,9 @@ module.exports = {
   username: PG_USER,
   password: PG_PASSWORD,
   database,
-  ssl: NODE_ENV === 'production',
+  ssl: {
+    rejectUnauthorized: false,
+  },
   synchronize: true,
   logging: NODE_ENV === 'development',
   entities: [`${isProd ? 'dist' : 'src'}/models/**/*.*`],
