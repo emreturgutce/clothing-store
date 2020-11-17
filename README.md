@@ -2,7 +2,7 @@
 
 ## Clothing Store
 
-Clothing Store is an open-source GraphQL API that can handle user registrations, payments, orders. I built this API using Node.js, TypeGraphQL ,TypeORM. You can access it here: (you are not going to see anything fancy it is just an API but you can send some requests as shown in the [GraphQL API section](#GraphQL API) down below) [https://clothing-store-app.herokuapp.com/](https://clothing-store-app.herokuapp.com/)
+Clothing Store is an open-source GraphQL API that can handle user registrations, payments, orders. I built this API using Node.js, TypeGraphQL ,TypeORM. You can access it here: (you are not going to see anything fancy it is just an API but you can send some requests as shown in the [GraphQL API section](#GraphQL-API) down below) [https://clothing-store-app.herokuapp.com/](https://clothing-store-app.herokuapp.com/)
 
 ### Requirements
 
