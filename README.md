@@ -61,7 +61,7 @@ If not using docker you need to have postgres and redis running in your system. 
   Status: 200 OK
   Connection: keep-alive
   Content-Type: application/json
-  Content-Length: 2
+  Content-Length: 387
 
   {
     "data": {
@@ -107,7 +107,7 @@ If not using docker you need to have postgres and redis running in your system. 
   Status: 200 OK
   Connection: keep-alive
   Content-Type: application/json
-  Content-Length: 2
+  Content-Length: 437
 
   {
     "data": {
