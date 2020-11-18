@@ -46,6 +46,7 @@ If not using docker you need to have postgres and redis running in your system. 
 
 ```bash
   curl \
+    -i \
     -X POST \
     -H "Content-Type: application/json" \
     -d '{ \"query\": \"{ hello }\"}' \
