@@ -3,11 +3,11 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import responseTime from 'response-time';
-import { createSession } from './config';
+import { corsOptions, createSession } from './config';
 
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(
   rateLimit({
