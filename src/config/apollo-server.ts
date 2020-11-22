@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import { Express } from 'express';
-import { NODE_ENV } from '.';
+import { corsOptions, NODE_ENV } from '.';
 import { createSchema, formatError } from '../utils';
 
 export const initializeApolloServer = async (app: Express) => {
@@ -15,5 +15,5 @@ export const initializeApolloServer = async (app: Express) => {
     playground: NODE_ENV === 'development',
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: corsOptions });
 };
