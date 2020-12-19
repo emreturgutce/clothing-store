@@ -10,12 +10,12 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message:
-      'Too many accounts created from this IP, please try again after 15 mins.',
-  }),
+    rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 100,
+        message:
+            'Too many accounts created from this IP, please try again after 15 mins.',
+    }),
 );
 app.use(responseTime());
 

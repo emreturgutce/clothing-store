@@ -7,25 +7,25 @@ import { sendEmail } from '../../utils';
 
 @Resolver()
 export class ForgotPasswordResolver {
-  @Authorized()
-  @Mutation(() => Boolean)
-  async forgotPassword(@Arg('email') email: string): Promise<boolean> {
-    const user = await User.findOneOrFail({ where: { email } });
+    @Authorized()
+    @Mutation(() => Boolean)
+    async forgotPassword(@Arg('email') email: string): Promise<boolean> {
+        const user = await User.findOneOrFail({ where: { email } });
 
-    const token = uuid();
+        const token = uuid();
 
-    await redis.set(
-      `${FORGOT_PASSWORD_PREFIX}${token}`,
-      user.id,
-      'ex',
-      60 * 60 * 24,
-    );
+        await redis.set(
+            `${FORGOT_PASSWORD_PREFIX}${token}`,
+            user.id,
+            'ex',
+            60 * 60 * 24,
+        );
 
-    await sendEmail(
-      email,
-      `http://localhost:3000/user/change-password/${token}`,
-    );
+        await sendEmail(
+            email,
+            `http://localhost:3000/user/change-password/${token}`,
+        );
 
-    return true;
-  }
+        return true;
+    }
 }

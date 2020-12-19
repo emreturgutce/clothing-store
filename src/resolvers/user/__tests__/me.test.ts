@@ -3,22 +3,22 @@ import { registerMutation, meQuery } from '../../../mutations';
 import { createTestUser } from '../../../utils/create-test-user';
 
 describe('Me Resolver Test Suite', () => {
-  it('Successful Me Query', async () => {
-    const { mutate, query } = createTestClient(global.server);
+    it('Successful Me Query', async () => {
+        const { mutate, query } = createTestClient(global.server);
 
-    const user = createTestUser();
+        const user = createTestUser();
 
-    await mutate({
-      mutation: registerMutation,
-      variables: {
-        data: user,
-      },
+        await mutate({
+            mutation: registerMutation,
+            variables: {
+                data: user,
+            },
+        });
+
+        const res = await query({
+            query: meQuery,
+        });
+
+        expect(res).toBeDefined();
     });
-
-    const res = await query({
-      query: meQuery,
-    });
-
-    expect(res).toBeDefined();
-  });
 });

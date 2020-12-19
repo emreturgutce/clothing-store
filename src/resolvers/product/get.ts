@@ -5,20 +5,20 @@ import { PaginatedProductsResponse } from '../../response-types/paginated-produc
 
 @Resolver()
 export class GetProductsResolver {
-  @Authorized()
-  @Query(() => PaginatedProductsResponse, { nullable: true })
-  async getProducts(
-    @Arg('data') { take, skip }: PaginationInput,
-  ): Promise<PaginatedProductsResponse> {
-    const [products, total] = await Product.findAndCount({
-      take,
-      skip: skip * take,
-    });
+    @Authorized()
+    @Query(() => PaginatedProductsResponse, { nullable: true })
+    async getProducts(
+        @Arg('data') { take, skip }: PaginationInput,
+    ): Promise<PaginatedProductsResponse> {
+        const [products, total] = await Product.findAndCount({
+            take,
+            skip: skip * take,
+        });
 
-    return {
-      items: products,
-      hasMore: (skip + 1) * take < total,
-      total,
-    };
-  }
+        return {
+            items: products,
+            hasMore: (skip + 1) * take < total,
+            total,
+        };
+    }
 }

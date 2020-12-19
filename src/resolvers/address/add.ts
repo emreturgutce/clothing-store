@@ -8,23 +8,23 @@ import { User } from '../../models/user';
 
 @Resolver()
 export class AddAddressResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Address, { nullable: true })
-  async addAddress(
-    @Arg('data') { addressLines, city, zipcode }: AddressInput,
-    @Ctx() { req }: Context,
-  ): Promise<Address | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Address, { nullable: true })
+    async addAddress(
+        @Arg('data') { addressLines, city, zipcode }: AddressInput,
+        @Ctx() { req }: Context,
+    ): Promise<Address | null> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    const address = await Address.create({
-      addressLines,
-      city,
-      zipcode,
-      user,
-    }).save();
+        const address = await Address.create({
+            addressLines,
+            city,
+            zipcode,
+            user,
+        }).save();
 
-    return address;
-  }
+        return address;
+    }
 }

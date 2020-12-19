@@ -8,34 +8,34 @@ import { ProductUpdateInput } from '../../input-types/product-update-input';
 
 @Resolver()
 export class UpdateProductResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Boolean)
-  async updateProduct(
-    @Arg('productId') productId: string,
-    @Arg('productUpdateInput') productUpdateInput: ProductUpdateInput,
-    @Ctx() { req }: Context,
-  ): Promise<boolean> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Boolean)
+    async updateProduct(
+        @Arg('productId') productId: string,
+        @Arg('productUpdateInput') productUpdateInput: ProductUpdateInput,
+        @Ctx() { req }: Context,
+    ): Promise<boolean> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({
-      where: { id: userId },
-      relations: ['products'],
-    });
+        const user = await User.findOneOrFail({
+            where: { id: userId },
+            relations: ['products'],
+        });
 
-    if (user.role.name === UserRoles.user) {
-      const val = user.checkIfUserIsOwner(productId);
+        if (user.role.name === UserRoles.user) {
+            const val = user.checkIfUserIsOwner(productId);
 
-      if (!val) {
+            if (!val) {
+                return false;
+            }
+
+            return Product.updateFromUser(productId, productUpdateInput, user);
+        }
+
+        if (user.role.name === UserRoles.admin) {
+            return Product.updateFromUser(productId, productUpdateInput);
+        }
+
         return false;
-      }
-
-      return Product.updateFromUser(productId, productUpdateInput, user);
     }
-
-    if (user.role.name === UserRoles.admin) {
-      return Product.updateFromUser(productId, productUpdateInput);
-    }
-
-    return false;
-  }
 }

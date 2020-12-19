@@ -7,23 +7,23 @@ import { ExternalEntity } from './base-entity';
 @ObjectType()
 @Entity()
 export class Comment extends ExternalEntity {
-  @Field()
-  @Column('text')
-  content!: string;
+    @Field()
+    @Column('text')
+    content!: string;
 
-  @Field({ defaultValue: 0 })
-  @Column('int', { default: 0 })
-  rate!: number;
+    @Field({ defaultValue: 0 })
+    @Column('int', { default: 0 })
+    rate!: number;
 
-  @Field(() => Product)
-  @ManyToOne(() => Product, (product) => product.comments, {
-    onDelete: 'CASCADE',
-  })
-  product!: Product;
+    @Field(() => Product)
+    @ManyToOne(() => Product, (product) => product.comments, {
+        onDelete: 'CASCADE',
+    })
+    product!: Product;
 
-  @Field(() => User)
-  @ManyToOne(() => User, {
-    onDelete: 'CASCADE',
-  })
-  user!: User;
+    @Field(() => User)
+    @ManyToOne(() => User, {
+        onDelete: 'CASCADE',
+    })
+    user!: User;
 }

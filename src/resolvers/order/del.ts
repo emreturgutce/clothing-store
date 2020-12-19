@@ -4,9 +4,9 @@ import { UserRoles } from '../../types';
 
 @Resolver()
 export class DeleteOrderResolver {
-  @Authorized([UserRoles.admin])
-  @Mutation(() => Boolean)
-  async deleteOrder(@Arg('id') id: string): Promise<boolean> {
-    return Order.deleteById(id);
-  }
+    @Authorized([UserRoles.admin])
+    @Mutation(() => Boolean)
+    async deleteOrder(@Arg('id') id: string): Promise<boolean> {
+        return Order.deleteById(id);
+    }
 }

@@ -5,26 +5,26 @@ import { clearDatabase } from '../utils';
 import { initializeApolloServerBase } from '../config/apollo-server-base';
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      server: ApolloServerBase;
+    namespace NodeJS {
+        interface Global {
+            server: ApolloServerBase;
+        }
     }
-  }
 }
 
 beforeAll(async () => {
-  global.server = await initializeApolloServerBase();
-  await createConnection();
+    global.server = await initializeApolloServerBase();
+    await createConnection();
 });
 
 beforeEach(async () => {
-  await clearDatabase();
+    await clearDatabase();
 });
 
 afterEach(async () => {
-  await clearDatabase();
+    await clearDatabase();
 });
 
 afterAll(async () => {
-  await getConnection().close();
+    await getConnection().close();
 });

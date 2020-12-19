@@ -7,33 +7,35 @@ import { Context, UserRoles } from '../../types';
 
 @Resolver()
 export class RateProductResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Product, { nullable: true })
-  async rateProduct(
-    @Arg('productId') productId: string,
-    @Arg('rate') rate: number,
-    @Ctx() { req }: Context,
-  ): Promise<Product | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Product, { nullable: true })
+    async rateProduct(
+        @Arg('productId') productId: string,
+        @Arg('rate') rate: number,
+        @Ctx() { req }: Context,
+    ): Promise<Product | null> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    const product = await Product.findOneOrFail({ where: { id: productId } });
+        const product = await Product.findOneOrFail({
+            where: { id: productId },
+        });
 
-    const val = user.checkIfUserBoughtTheProduct(product);
+        const val = user.checkIfUserBoughtTheProduct(product);
 
-    if (!val) {
-      return null;
+        if (!val) {
+            return null;
+        }
+
+        if (!product.rate) {
+            product.rate = [rate];
+        } else {
+            product.rate.push(rate);
+        }
+
+        await product.save();
+
+        return product;
     }
-
-    if (!product.rate) {
-      product.rate = [rate];
-    } else {
-      product.rate.push(rate);
-    }
-
-    await product.save();
-
-    return product;
-  }
 }

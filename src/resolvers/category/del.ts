@@ -4,12 +4,12 @@ import { UserRoles } from '../../types';
 
 @Resolver()
 export class DelCategoryResolver {
-  @Authorized([UserRoles.admin])
-  @Mutation(() => Boolean)
-  async delCategory(
-    @Arg('id')
-    id: string,
-  ): Promise<boolean> {
-    return Category.deleteById(id);
-  }
+    @Authorized([UserRoles.admin])
+    @Mutation(() => Boolean)
+    async delCategory(
+        @Arg('id')
+        id: string,
+    ): Promise<boolean> {
+        return Category.deleteById(id);
+    }
 }

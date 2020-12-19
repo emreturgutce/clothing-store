@@ -4,9 +4,9 @@ import { UserRoles } from '../../types';
 
 @Resolver()
 export class GetCategoriesResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Query(() => [Category], { nullable: true })
-  async getCategories(): Promise<Category[]> {
-    return Category.find({});
-  }
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Query(() => [Category], { nullable: true })
+    async getCategories(): Promise<Category[]> {
+        return Category.find({});
+    }
 }

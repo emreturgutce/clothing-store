@@ -7,24 +7,24 @@ import { User } from '../../models/user';
 
 @Resolver()
 export class GetAddressByIdResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Query(() => Address, { nullable: true })
-  async getAddressById(
-    @Arg('addressId') addressId: string,
-    @Ctx() { req }: Context,
-  ): Promise<Address | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Query(() => Address, { nullable: true })
+    async getAddressById(
+        @Arg('addressId') addressId: string,
+        @Ctx() { req }: Context,
+    ): Promise<Address | null> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    if (user.role.name === UserRoles.user) {
-      return Address.getFromUser(addressId, user);
+        if (user.role.name === UserRoles.user) {
+            return Address.getFromUser(addressId, user);
+        }
+
+        if (user.role.name === UserRoles.admin) {
+            return Address.getFromUser(addressId);
+        }
+
+        return null;
     }
-
-    if (user.role.name === UserRoles.admin) {
-      return Address.getFromUser(addressId);
-    }
-
-    return null;
-  }
 }

@@ -8,38 +8,38 @@ import { Comment } from '../../models/comment';
 
 @Resolver()
 export class CommentProductResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Product, { nullable: true })
-  async commentProduct(
-    @Arg('productId') productId: string,
-    @Arg('content') content: string,
-    @Ctx() { req }: Context,
-  ): Promise<Product | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Product, { nullable: true })
+    async commentProduct(
+        @Arg('productId') productId: string,
+        @Arg('content') content: string,
+        @Ctx() { req }: Context,
+    ): Promise<Product | null> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    const product = await Product.findOneOrFail({
-      where: { id: productId },
-      relations: ['comments'],
-    });
+        const product = await Product.findOneOrFail({
+            where: { id: productId },
+            relations: ['comments'],
+        });
 
-    const val = user.checkIfUserBoughtTheProduct(product);
+        const val = user.checkIfUserBoughtTheProduct(product);
 
-    if (!val) {
-      return null;
+        if (!val) {
+            return null;
+        }
+
+        const comment = Comment.create({ content });
+
+        if (!product.comments) {
+            product.comments = [comment];
+        } else {
+            product.comments.push(comment);
+        }
+
+        await product.save();
+
+        return product;
     }
-
-    const comment = Comment.create({ content });
-
-    if (!product.comments) {
-      product.comments = [comment];
-    } else {
-      product.comments.push(comment);
-    }
-
-    await product.save();
-
-    return product;
-  }
 }

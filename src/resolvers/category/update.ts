@@ -5,12 +5,12 @@ import { UserRoles } from '../../types';
 
 @Resolver()
 export class UpdateCategoryResolver {
-  @Authorized([UserRoles.admin])
-  @Mutation(() => Boolean)
-  async updateCategory(
-    @Arg('id') id: string,
-    @Arg('data') { name }: CategoryInput,
-  ): Promise<boolean> {
-    return Category.updateNameById(id, name);
-  }
+    @Authorized([UserRoles.admin])
+    @Mutation(() => Boolean)
+    async updateCategory(
+        @Arg('id') id: string,
+        @Arg('data') { name }: CategoryInput,
+    ): Promise<boolean> {
+        return Category.updateNameById(id, name);
+    }
 }

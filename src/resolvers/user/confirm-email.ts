@@ -5,19 +5,19 @@ import { CONFIRM_USER_PREFIX } from '../../constants';
 
 @Resolver()
 export class ConfirmUserResolver {
-  @Authorized()
-  @Mutation(() => Boolean)
-  async confirmEmail(@Arg('token') token: string): Promise<boolean> {
-    const userId = await redis.get(`${CONFIRM_USER_PREFIX}${token}`);
+    @Authorized()
+    @Mutation(() => Boolean)
+    async confirmEmail(@Arg('token') token: string): Promise<boolean> {
+        const userId = await redis.get(`${CONFIRM_USER_PREFIX}${token}`);
 
-    if (!userId) {
-      return false;
+        if (!userId) {
+            return false;
+        }
+
+        await User.update({ id: userId }, { confirmed: true });
+
+        await redis.del(token);
+
+        return true;
     }
-
-    await User.update({ id: userId }, { confirmed: true });
-
-    await redis.del(token);
-
-    return true;
-  }
 }

@@ -5,21 +5,21 @@ import { AvatarScalar } from '../types/avatar-scalar';
 import { NODE_ENV } from '../config';
 
 export const createSchema = async () => {
-  return buildSchema({
-    resolvers: [
-      path.join(
-        __dirname,
-        `../resolvers/*/*.${NODE_ENV === 'production' ? 'js' : 'ts'}`,
-      ),
-    ],
-    authChecker,
-    scalarsMap: [
-      {
-        type: Buffer,
-        scalar: AvatarScalar,
-      },
-    ],
-    emitSchemaFile: true,
-    nullableByDefault: true,
-  });
+    return buildSchema({
+        resolvers: [
+            path.join(
+                __dirname,
+                `../resolvers/*/*.${NODE_ENV === 'production' ? 'js' : 'ts'}`,
+            ),
+        ],
+        authChecker,
+        scalarsMap: [
+            {
+                type: Buffer,
+                scalar: AvatarScalar,
+            },
+        ],
+        emitSchemaFile: true,
+        nullableByDefault: true,
+    });
 };

@@ -4,16 +4,16 @@ import { corsOptions, NODE_ENV } from '.';
 import { createSchema, formatError } from '../utils';
 
 export const initializeApolloServer = async (app: Express) => {
-  const schema = await createSchema();
+    const schema = await createSchema();
 
-  const server = new ApolloServer({
-    schema,
-    context: ({ req, res }) => ({ req, res }),
-    tracing: true,
-    cacheControl: true,
-    formatError,
-    playground: NODE_ENV === 'development',
-  });
+    const server = new ApolloServer({
+        schema,
+        context: ({ req, res }) => ({ req, res }),
+        tracing: true,
+        cacheControl: true,
+        formatError,
+        playground: NODE_ENV === 'development',
+    });
 
-  server.applyMiddleware({ app, cors: corsOptions });
+    server.applyMiddleware({ app, cors: corsOptions });
 };

@@ -7,24 +7,24 @@ import { User } from '../../models/user';
 
 @Resolver()
 export class GetOrderByIdResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Query(() => Order, { nullable: true })
-  async getOrderById(
-    @Arg('id') id: string,
-    @Ctx() { req }: Context,
-  ): Promise<Order> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Query(() => Order, { nullable: true })
+    async getOrderById(
+        @Arg('id') id: string,
+        @Ctx() { req }: Context,
+    ): Promise<Order> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    if (user.role.name === UserRoles.admin) {
-      const order = await Order.findOneOrFail({ where: { id } });
+        if (user.role.name === UserRoles.admin) {
+            const order = await Order.findOneOrFail({ where: { id } });
 
-      return order;
+            return order;
+        }
+
+        const order = await Order.findOneOrFail({ where: { id, user } });
+
+        return order;
     }
-
-    const order = await Order.findOneOrFail({ where: { id, user } });
-
-    return order;
-  }
 }

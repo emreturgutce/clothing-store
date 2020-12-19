@@ -10,39 +10,39 @@ import { deleteAvatarFromS3 } from '../../utils/delete-avatar-from-s3';
 
 @Resolver()
 export class AvatarResolver {
-  @Authorized()
-  @Mutation(() => Boolean)
-  async avatar(
-    @Arg('avatar', () => GraphQLUpload)
-    file: FileUpload,
-    @Ctx() { req }: Context,
-  ): Promise<boolean> {
-    return new Promise(async (resolve, reject) => {
-      const id = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized()
+    @Mutation(() => Boolean)
+    async avatar(
+        @Arg('avatar', () => GraphQLUpload)
+        file: FileUpload,
+        @Ctx() { req }: Context,
+    ): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            const id = jwt.verify(req.session!.userId, JWT_SECRET);
 
-      const user = await User.findOneOrFail({ where: { id } });
+            const user = await User.findOneOrFail({ where: { id } });
 
-      const readStream = file.createReadStream();
+            const readStream = file.createReadStream();
 
-      const extension = file.filename.split('.')[1];
+            const extension = file.filename.split('.')[1];
 
-      const avatarId = `${uuid()}.${extension}`;
+            const avatarId = `${uuid()}.${extension}`;
 
-      try {
-        if (user.avatarId) {
-          await deleteAvatarFromS3(user.avatarId);
-        }
+            try {
+                if (user.avatarId) {
+                    await deleteAvatarFromS3(user.avatarId);
+                }
 
-        await uploadAvatarToS3(avatarId, readStream);
+                await uploadAvatarToS3(avatarId, readStream);
 
-        user.avatarId = avatarId;
+                user.avatarId = avatarId;
 
-        await user.save();
+                await user.save();
 
-        resolve(true);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
+                resolve(true);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
 }

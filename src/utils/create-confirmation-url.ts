@@ -3,11 +3,16 @@ import { CONFIRM_USER_PREFIX } from '../constants';
 import { redis } from '../config';
 
 export const createConfirmationUrl = async (
-  userId: string,
+    userId: string,
 ): Promise<string> => {
-  const token = uuid();
+    const token = uuid();
 
-  await redis.set(`${CONFIRM_USER_PREFIX}${token}`, userId, 'ex', 60 * 60 * 24);
+    await redis.set(
+        `${CONFIRM_USER_PREFIX}${token}`,
+        userId,
+        'ex',
+        60 * 60 * 24,
+    );
 
-  return `http://localhost:3000/user/confirm/${token}`;
+    return `http://localhost:3000/user/confirm/${token}`;
 };

@@ -8,18 +8,18 @@ import { ExternalEntity } from './base-entity';
 @ObjectType()
 @Entity()
 export class OrderProduct extends ExternalEntity {
-  @Field(() => Order)
-  @ManyToOne(() => Order, (order) => order.orderProducts, {
-    onDelete: 'CASCADE',
-  })
-  order!: Order;
+    @Field(() => Order)
+    @ManyToOne(() => Order, (order) => order.orderProducts, {
+        onDelete: 'CASCADE',
+    })
+    order!: Order;
 
-  @Field(() => Product)
-  @ManyToOne(() => Product, { cascade: true, eager: true })
-  product!: Product;
+    @Field(() => Product)
+    @ManyToOne(() => Product, { cascade: true, eager: true })
+    product!: Product;
 
-  @Field()
-  @Column('int', { default: 1 })
-  @Min(0)
-  quantity!: number;
+    @Field()
+    @Column('int', { default: 1 })
+    @Min(0)
+    quantity!: number;
 }

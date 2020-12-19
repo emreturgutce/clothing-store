@@ -13,52 +13,52 @@ import { calculateDelay } from '../../utils/calculate-delay';
 
 @Resolver()
 export class CreateOrderResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Order, { nullable: true })
-  async createOrder(
-    @Arg('orderProducts') { orderProductInputs, addressId }: OrderInputs,
-    @Ctx() { req }: Context,
-  ): Promise<Order | null> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Order, { nullable: true })
+    async createOrder(
+        @Arg('orderProducts') { orderProductInputs, addressId }: OrderInputs,
+        @Ctx() { req }: Context,
+    ): Promise<Order | null> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    const orderProducts: OrderProduct[] = [];
+        const orderProducts: OrderProduct[] = [];
 
-    for await (const { productId, quantity } of orderProductInputs) {
-      const product = await Product.findOneOrFail({
-        where: { id: productId },
-      });
+        for await (const { productId, quantity } of orderProductInputs) {
+            const product = await Product.findOneOrFail({
+                where: { id: productId },
+            });
 
-      if (quantity > product.stock) {
-        throw new Error('Stock error');
-      }
+            if (quantity > product.stock) {
+                throw new Error('Stock error');
+            }
 
-      product.stock -= quantity;
+            product.stock -= quantity;
 
-      const orderProduct = OrderProduct.create({
-        product,
-        quantity,
-      });
+            const orderProduct = OrderProduct.create({
+                product,
+                quantity,
+            });
 
-      orderProducts.push(orderProduct);
+            orderProducts.push(orderProduct);
+        }
+
+        const address = await Address.findOneOrFail({
+            where: { id: addressId, user },
+        });
+
+        const order = await Order.create({
+            user,
+            orderProducts,
+            address,
+        }).save();
+
+        await expirationQueue.add(
+            { orderId: order.id },
+            { delay: calculateDelay(order.expiresAt) },
+        );
+
+        return order;
     }
-
-    const address = await Address.findOneOrFail({
-      where: { id: addressId, user },
-    });
-
-    const order = await Order.create({
-      user,
-      orderProducts,
-      address,
-    }).save();
-
-    await expirationQueue.add(
-      { orderId: order.id },
-      { delay: calculateDelay(order.expiresAt) },
-    );
-
-    return order;
-  }
 }

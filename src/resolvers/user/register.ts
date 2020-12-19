@@ -11,36 +11,36 @@ import { UserRole } from '../../models/user-role';
 
 @Resolver()
 export class RegisterUserResolver {
-  @Query(() => String)
-  hello() {
-    return 'hello World';
-  }
+    @Query(() => String)
+    hello() {
+        return 'hello World';
+    }
 
-  @Mutation(() => User)
-  async register(
-    @Arg('data') { email, password, name, phone }: RegisterInput,
-    @Ctx() ctx: Context,
-  ): Promise<User> {
-    const hashedPassword = await bcrypt.hash(password, 12);
+    @Mutation(() => User)
+    async register(
+        @Arg('data') { email, password, name, phone }: RegisterInput,
+        @Ctx() ctx: Context,
+    ): Promise<User> {
+        const hashedPassword = await bcrypt.hash(password, 12);
 
-    const detail = UserDetail.create({
-      name,
-      phone,
-    });
+        const detail = UserDetail.create({
+            name,
+            phone,
+        });
 
-    const role = UserRole.create({});
+        const role = UserRole.create({});
 
-    const user = await User.create({
-      email,
-      password: hashedPassword,
-      detail,
-      role,
-    }).save();
+        const user = await User.create({
+            email,
+            password: hashedPassword,
+            detail,
+            role,
+        }).save();
 
-    ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
+        ctx.req.session!.userId = jwt.sign(user.id, JWT_SECRET);
 
-    await sendEmail(email, await createConfirmationUrl(user.id));
+        await sendEmail(email, await createConfirmationUrl(user.id));
 
-    return user;
-  }
+        return user;
+    }
 }

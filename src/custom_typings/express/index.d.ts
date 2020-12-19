@@ -1,5 +1,5 @@
 declare namespace Express {
-  interface Request {
-    session: any;
-  }
+    interface Request {
+        session: any;
+    }
 }

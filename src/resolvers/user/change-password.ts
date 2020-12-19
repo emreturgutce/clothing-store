@@ -8,30 +8,30 @@ import { Context } from '../../types';
 
 @Resolver()
 export class ChangePasswordResolver {
-  @Authorized()
-  @Mutation(() => Boolean)
-  async changePassword(
-    @Arg('data') { token, password }: ChangePasswordInput,
-    @Ctx() ctx: Context,
-  ): Promise<boolean> {
-    const id = await redis.get(`${FORGOT_PASSWORD_PREFIX}${token}`);
+    @Authorized()
+    @Mutation(() => Boolean)
+    async changePassword(
+        @Arg('data') { token, password }: ChangePasswordInput,
+        @Ctx() ctx: Context,
+    ): Promise<boolean> {
+        const id = await redis.get(`${FORGOT_PASSWORD_PREFIX}${token}`);
 
-    if (!id) {
-      return false;
+        if (!id) {
+            return false;
+        }
+
+        const result = await User.update(id, {
+            password: await bcrypt.hash(password, 12),
+        });
+
+        if (!result.affected) {
+            return false;
+        }
+
+        await redis.del(`${FORGOT_PASSWORD_PREFIX}${token}`);
+
+        ctx.req.session!.userId = id;
+
+        return true;
     }
-
-    const result = await User.update(id, {
-      password: await bcrypt.hash(password, 12),
-    });
-
-    if (!result.affected) {
-      return false;
-    }
-
-    await redis.del(`${FORGOT_PASSWORD_PREFIX}${token}`);
-
-    ctx.req.session!.userId = id;
-
-    return true;
-  }
 }

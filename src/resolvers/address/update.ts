@@ -8,17 +8,17 @@ import { OptionalAddressInput } from '../../input-types/address-input';
 
 @Resolver()
 export class UpdateAddressResolver {
-  @Authorized([UserRoles.user, UserRoles.admin])
-  @Mutation(() => Boolean)
-  async updateAddress(
-    @Arg('addressId') addressId: string,
-    @Arg('data') optionalAddressInput: OptionalAddressInput,
-    @Ctx() { req }: Context,
-  ): Promise<boolean> {
-    const userId = jwt.verify(req.session!.userId, JWT_SECRET);
+    @Authorized([UserRoles.user, UserRoles.admin])
+    @Mutation(() => Boolean)
+    async updateAddress(
+        @Arg('addressId') addressId: string,
+        @Arg('data') optionalAddressInput: OptionalAddressInput,
+        @Ctx() { req }: Context,
+    ): Promise<boolean> {
+        const userId = jwt.verify(req.session!.userId, JWT_SECRET);
 
-    const user = await User.findOneOrFail({ where: { id: userId } });
+        const user = await User.findOneOrFail({ where: { id: userId } });
 
-    return Address.updateFromUser(addressId, optionalAddressInput, user);
-  }
+        return Address.updateFromUser(addressId, optionalAddressInput, user);
+    }
 }
